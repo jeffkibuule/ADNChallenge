@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface ADNViewController : UIViewController
+{
+    
+}
 
 @end

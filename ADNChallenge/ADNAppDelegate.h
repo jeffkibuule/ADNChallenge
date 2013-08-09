@@ -12,7 +12,7 @@
 
 @interface ADNAppDelegate : UIResponder <UIApplicationDelegate>
 {
-    
+     
 }
 
 @property (strong, nonatomic) UIWindow *window;

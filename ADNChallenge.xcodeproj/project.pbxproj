@@ -16,7 +16,6 @@
 		1F56C80517B4828A0069F1A1 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F56C80417B4828A0069F1A1 /* Default.png */; };
 		1F56C80717B4828A0069F1A1 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F56C80617B4828A0069F1A1 /* Default@2x.png */; };
 		1F56C80917B4828A0069F1A1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F56C80817B4828A0069F1A1 /* Default-568h@2x.png */; };
-		1F56C80C17B4828A0069F1A1 /* ADNViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56C80B17B4828A0069F1A1 /* ADNViewController.m */; };
 		1F56C80F17B4828A0069F1A1 /* ADNViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F56C80D17B4828A0069F1A1 /* ADNViewController.xib */; };
 		1F56C81717B4828A0069F1A1 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F56C81617B4828A0069F1A1 /* SenTestingKit.framework */; };
 		1F56C81817B4828A0069F1A1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F56C7F217B4828A0069F1A1 /* UIKit.framework */; };
@@ -27,6 +26,7 @@
 		1F56C83917B483920069F1A1 /* ADNStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56C83717B483920069F1A1 /* ADNStream.m */; };
 		1F56C83C17B484DC0069F1A1 /* Challenge.md in Resources */ = {isa = PBXBuildFile; fileRef = 1F56C83A17B484DC0069F1A1 /* Challenge.md */; };
 		1F56C83D17B484DC0069F1A1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1F56C83B17B484DC0069F1A1 /* README.md */; };
+		1F56C84117B4871B0069F1A1 /* ADNViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56C84017B4871B0069F1A1 /* ADNViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,8 +53,6 @@
 		1F56C80417B4828A0069F1A1 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		1F56C80617B4828A0069F1A1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		1F56C80817B4828A0069F1A1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		1F56C80A17B4828A0069F1A1 /* ADNViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADNViewController.h; sourceTree = "<group>"; };
-		1F56C80B17B4828A0069F1A1 /* ADNViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADNViewController.m; sourceTree = "<group>"; };
 		1F56C80E17B4828A0069F1A1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ADNViewController.xib; sourceTree = "<group>"; };
 		1F56C81517B4828A0069F1A1 /* ADNChallengeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ADNChallengeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F56C81617B4828A0069F1A1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -68,6 +66,8 @@
 		1F56C83717B483920069F1A1 /* ADNStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ADNStream.m; path = Models/ADNStream.m; sourceTree = "<group>"; };
 		1F56C83A17B484DC0069F1A1 /* Challenge.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Challenge.md; sourceTree = SOURCE_ROOT; };
 		1F56C83B17B484DC0069F1A1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
+		1F56C83F17B4871B0069F1A1 /* ADNViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ADNViewController.h; path = "View Controllers/ADNViewController.h"; sourceTree = "<group>"; };
+		1F56C84017B4871B0069F1A1 /* ADNViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ADNViewController.m; path = "View Controllers/ADNViewController.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,10 +130,9 @@
 			isa = PBXGroup;
 			children = (
 				1F56C82D17B483070069F1A1 /* Models */,
+				1F56C83E17B486D10069F1A1 /* View Controllers */,
 				1F56C80117B4828A0069F1A1 /* ADNAppDelegate.h */,
 				1F56C80217B4828A0069F1A1 /* ADNAppDelegate.m */,
-				1F56C80A17B4828A0069F1A1 /* ADNViewController.h */,
-				1F56C80B17B4828A0069F1A1 /* ADNViewController.m */,
 				1F56C80D17B4828A0069F1A1 /* ADNViewController.xib */,
 				1F56C7F917B4828A0069F1A1 /* Supporting Files */,
 			);
@@ -182,6 +181,15 @@
 				1F56C83717B483920069F1A1 /* ADNStream.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		1F56C83E17B486D10069F1A1 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1F56C83F17B4871B0069F1A1 /* ADNViewController.h */,
+				1F56C84017B4871B0069F1A1 /* ADNViewController.m */,
+			);
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -299,9 +307,9 @@
 			files = (
 				1F56C7FF17B4828A0069F1A1 /* main.m in Sources */,
 				1F56C80317B4828A0069F1A1 /* ADNAppDelegate.m in Sources */,
-				1F56C80C17B4828A0069F1A1 /* ADNViewController.m in Sources */,
 				1F56C83817B483920069F1A1 /* ADNPost.m in Sources */,
 				1F56C83917B483920069F1A1 /* ADNStream.m in Sources */,
+				1F56C84117B4871B0069F1A1 /* ADNViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
