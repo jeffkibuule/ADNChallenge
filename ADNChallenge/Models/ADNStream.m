@@ -19,6 +19,8 @@
 
 @synthesize streamAPIPointURL;
 
+@synthesize streamDelegate;
+
 // Initialize the class
 - (id) init
 {
@@ -34,11 +36,13 @@
     return self;
 }
 
+// Sets the API point for this class
 - (void) setAPIPoint:(NSString *)APIPointURL
 {
     streamAPIPointURL = APIPointURL;
 }
 
+// Refreshes the stream by asking for more data via JSON via an asynchronous even to prevent thread blocking
 - (void) refreshStream
 {
     // We use Grand Central Dispatch to pull data from the Internet on a background queue to prevent blocking of the UI thread
@@ -51,6 +55,7 @@
     });
 }
 
+// Parses the new data into our data structure (ADNPost)
 - (void)fetchedData:(NSData *) responseData {
     // Parse out the JSON data
     NSError* error;
@@ -60,30 +65,63 @@
                           options:kNilOptions
                           error:&error];
     
-    NSArray* latestPosts = [json objectForKey:@"data"];
+    // Get all of the latests posts
+    NSArray* latestPosts = [json objectForKey:@"data"]; 
     
-    // Go through all of the latest posts
-    for (NSDictionary *postDict in latestPosts)
+    // Make sure there are no errors
+    if (!error)
     {
-        // Process each dictionary item
-        ADNPost *adnPost = [[ADNPost alloc] init]; 
-        adnPost.postJSONDict = postDict;
-        [adnPost processJSON];
-        
-        // Special case, can only insert an object if an object already exists, otherwise do a normal add
-        if ([streamPostsArray count] == 0)
-            [streamPostsArray addObject:adnPost];
-        else
-            [streamPostsArray insertObject:adnPost atIndex:0];
-        
-        NSLog(@"name: %@", adnPost.profileName);
+        // Go through all of the latest posts
+        for (NSDictionary *postDict in latestPosts)
+        {
+            // Process each dictionary item
+            ADNPost *adnPost = [[ADNPost alloc] init];
+            adnPost.postJSONDict = postDict;
+            [adnPost processJSON];
+            
+            // Special case, can only insert an object if an object already exists, otherwise do a normal add
+            if ([streamPostsArray count] == 0)
+                [streamPostsArray addObject:adnPost];
+            else
+            {
+                [streamPostsArray insertObject:adnPost atIndex:0];
+            }
+            
+            // Do we get data?
+            NSLog(@"name: %@", adnPost.profileName);
+            NSLog(@"image url: %@", adnPost.profileImageURL);
+        }
     }
     
+    // Notify the delegate of our results
+    if (streamDelegate != nil)
+        [streamDelegate streamRefreshedWithError:error];
+    else
+        NSLog (@"No delegate for %@ stream has been set", self.streamName);
+}
+
+// Returns the number of posts in this stream
+- (NSUInteger) numPosts
+{
+    // Make sure we have a data array
+    if (streamPostsArray != nil)
+        return [streamPostsArray count];
     
+    // Something went wrong
+    NSLog (@"streamPostArray object is dead");
     
+    return 0;
+}
+
+// Gets the post at a specific index in the stream
+- (ADNPost *) getPostAtIndex:(NSUInteger ) postIndex
+{
+    // Check and make sure the request is in-bounds
+    if (postIndex < [streamPostsArray count])
+        return [streamPostsArray objectAtIndex:postIndex];
     
-    
-    //NSLog(@"posts: %@", latestPosts);
+    NSLog(@"Requesting post #%d in %@ stream which is out of bounds", postIndex, self.streamName);
+    return nil;
 }
 
 

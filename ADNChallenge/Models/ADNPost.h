@@ -37,6 +37,7 @@
 
 // Methods - none (class only stores data)
 - (void) processJSON;
+- (void) loadProfileImageFromWeb;
 
 // Unit tests - none (class only stores data)
 

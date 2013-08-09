@@ -39,9 +39,20 @@
 
 - (void) processJSON
 {
+    // Grab data about the user
     NSDictionary *userDict = [postJSONDict objectForKey:@"user"];
     
-    profileName = [userDict objectForKey:@"name"];
+    self.profileName = [userDict objectForKey:@"name"];
+    self.profileUsername = [userDict objectForKey:@"username"];
+    self.profileImageURL = [[userDict objectForKey:@"avatar_image"] objectForKey:@"url"];
+    
+    // Grab data about the post
+    self.postText = [postJSONDict objectForKey:@"text"];
+}
+
+- (void) loadProfileImageFromWeb
+{
+    
 }
 
 // Dealloc function - not needed, yay ARC!

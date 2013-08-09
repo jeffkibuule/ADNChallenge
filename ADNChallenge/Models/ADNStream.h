@@ -14,12 +14,24 @@
     1) refreshStream
  Unit tests:   */
 
+@class ADNPost;
+
+// Protocol used to notify a class that the stream has been refreshed with new data (or potential errors)
+@protocol ADNStreamDelegate
+
+@required
+- (void) streamRefreshedWithError: (NSError *) error;
+
+@end
+
 @interface ADNStream : NSObject {
     //
     NSString *streamName;
     NSMutableArray *streamPostsArray;
     
     NSString *streamAPIPointURL;
+    
+    id<ADNStreamDelegate> streamDelegate;
 }
 
 @property (nonatomic, retain) NSString *streamName;
@@ -27,11 +39,17 @@
 
 @property (nonatomic, retain) NSString *streamAPIPointURL;
 
+@property (nonatomic, retain) id<ADNStreamDelegate> streamDelegate;
+
 
 // Methods
 - (void) setAPIPoint: (NSString *) APIPoint;
 - (void) refreshStream;
 - (void)fetchedData: (NSData *)responseData;
+
+
+- (NSUInteger) numPosts;
+- (ADNPost *) getPostAtIndex: (NSUInteger) postIndex;
 
 // Unit tests
 

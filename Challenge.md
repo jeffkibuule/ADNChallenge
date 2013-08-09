@@ -1,7 +1,7 @@
-AppDotNetChallenge
+ADNChallenge
 ==================
 
-AppDotNetChallenge for ChaiOne
+ADNChallenge for ChaiOne
 
 TEXT
 
@@ -24,12 +24,12 @@ Interpretation
 6) Optimize for performance, iPhone 5 is a reasonable target, though a slow network may make it appear slow (think EDGE, poor signal, etc)
 
 Likely classes:
-1) Class that stores just individual App.net posts. Will be a direct representation of JSON information. Only stores data, nothing more. Need username, avatar image, and post text. Can be called AppDotNetPost.
-2) Class that stores many AppDotNetPosts. Will take an API end point to parse and store that data. Should be easily reusable for global streams, user streams, messages, etc. Cal be called AppDotNetStream
-3) Class that requests post specific to global stream. Can be called AppDotNetGlobalStream. Other classes similar to this would be named AppDotNetUserStream for users posts and AppDotNetMessageStream for users private messages.
+1) Class that stores just individual App.net posts. Will be a direct representation of JSON information. Only stores data, nothing more. Need username, avatar image, and post text. Can be called ADNPost.
+2) Class that stores many ADNPosts. Will take an API end point to parse and store that data. Should be easily reusable for global streams, user streams, messages, etc. Cal be called ADNStream
+3) Class that requests post specific to global stream. Can be called ADNGlobalStream. Other classes similar to this would be named ADNUserStream for users posts and ADNMessageStream for users private messages.
 
 Likely view controllers:
-1) Single view controller that handles global stream. Will contian one AppDotnetGlobalStream object. Will check for network connectivity, then load data. Also have call to refresh data if pull to refresh is initiated. Needs to also handle slow network connectivity.
+1) Single view controller that handles global stream. Will contian one ADNGlobalStream object. Will check for network connectivity, then load data. Also have call to refresh data if pull to refresh is initiated. Needs to also handle slow network connectivity.
 
 Potential pitfalls:
 1) Loading network data can be slow. Network code should be spun off into a separate thread to prevent blocking of the main UI thread. 
@@ -39,4 +39,4 @@ Unit Tests:
 Will create mirror classes mapping to each relevelant class that tests functionality.
 
 Other:
-1) Likely use JSON library to load and parse data.
+1) Likely use JSON library to load and parse data. Update: JSON support built directly into iOS frameworks as of iOS 5.

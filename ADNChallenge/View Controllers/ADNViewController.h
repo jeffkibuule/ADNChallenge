@@ -8,9 +8,25 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ADNViewController : UIViewController
+#import "ADNStream.h"
+
+@class ADNStream;
+
+@interface ADNViewController : UIViewController <ADNStreamDelegate, UITableViewDataSource, UITableViewDelegate>
 {
+    // UI elements
+    UIRefreshControl *refreshControl;
+    IBOutlet UITableView *streamTableView;
     
+    // Data elements
+    ADNStream *globalStream;
 }
+
+@property (nonatomic, retain) UIRefreshControl *refreshControl;
+@property (nonatomic, retain) UITableView *streamTableView;
+
+@property (nonatomic, retain) ADNStream *globalStream;
+
+- (void)streamRefreshedWithError:(NSError *)error;
 
 @end
