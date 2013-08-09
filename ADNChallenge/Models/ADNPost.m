@@ -30,8 +30,6 @@
         profileImageURL = @"";
         postText = @"";
         
-        profileImage = [[UIImage alloc] init];
-        
         postJSONDict = [[NSDictionary alloc] init];
     }
     return self;
@@ -43,7 +41,7 @@
     NSDictionary *userDict = [postJSONDict objectForKey:@"user"];
     
     self.profileName = [userDict objectForKey:@"name"];
-    self.profileUsername = [userDict objectForKey:@"username"];
+    self.profileUsername = [NSString stringWithFormat:@"@%@",[userDict objectForKey:@"username"]]; // Almost always the username will be used with the @ symbol in front
     self.profileImageURL = [[userDict objectForKey:@"avatar_image"] objectForKey:@"url"];
     
     // Grab data about the post

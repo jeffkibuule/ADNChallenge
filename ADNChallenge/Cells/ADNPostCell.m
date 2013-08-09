@@ -12,6 +12,7 @@
 
 @synthesize profileImage;
 @synthesize profileName;
+@synthesize profileUsername;
 @synthesize postText;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

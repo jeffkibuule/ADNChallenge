@@ -12,6 +12,7 @@
 
 
 #define kPostTextViewWidth           230.0      // Width of the post view text (also needs to be adjusted in ADNPostCell.xib)
+#define kMaxUsernameWidth            130.0
 
 @class ADNStream;
 

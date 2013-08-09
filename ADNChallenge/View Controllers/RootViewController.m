@@ -49,19 +49,18 @@
     
     // Setup the data object
     globalStream = [[ADNStream alloc] init];
-    globalStream.streamName = @"App.net Global";
+    globalStream.streamName = @"App.net Global Stream";
     globalStream.streamDelegate = self;
     [globalStream setAPIPoint:@"https://alpha-api.app.net/stream/0/posts/stream/global"];
     [globalStream refreshStream];
     
-    // Create the font
-    profileNameFont = [UIFont boldSystemFontOfSize:13];
-    postTextFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
+    // Cache the system fonts used when evlanuating the appropriate width and height of UILabel objects
+    profileNameFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:13.0];           // Bill Gates
+    profileUsernameFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0];       // @billgates
+    postTextFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];              // I am Bill Gates
     
     // Set the title
     self.title = globalStream.streamName;
-    
-    // Load table data for the first time
 }
 
 - (void)didReceiveMemoryWarning
@@ -134,27 +133,47 @@
     }
     
     // Load the profile image asychrononously to prevent blocking of the UI thread
-    NSString *imageUrl = adnPost.profileImageURL;
-    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrl]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        cell.profileImage.image = [UIImage imageWithData:data];
-    }];
+    if (adnPost.profileImage == nil)
+    {
+        // Haven't downloaded this image, go grab it off the web
+        NSString *imageUrl = adnPost.profileImageURL;
+        [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrl]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+            cell.profileImage.image = [UIImage imageWithData:data];
+            adnPost.profileImage = [UIImage imageWithData:data];
+        }];
+    }
+    else
+    {
+        // We've already cached this image, set it again
+        cell.profileImage.image = adnPost.profileImage;
+    }
+    
+    // Fill in profile name and username
+    cell.profileName.text = adnPost.profileName;
+    cell.profileUsername.text = adnPost.profileUsername;
+    cell.postText.text = adnPost.postText;
     
     
     // Adjust the label the the new height.
     CGSize maximumLabelSize = CGSizeMake(kPostTextViewWidth,9999);
     CGSize expectedLabelSize = [adnPost.postText sizeWithFont:postTextFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
     
-    CGRect newFrame = CGRectMake(70, 20, kPostTextViewWidth, 32);
+    CGRect newFrame = CGRectMake(64, 20, kPostTextViewWidth, 32);
     
     // Set the height of the label
     newFrame.size.height = expectedLabelSize.height+20;
     cell.postText.frame = newFrame;
+     
+    // Adjust the size of the username 
+    maximumLabelSize = CGSizeMake(kMaxUsernameWidth,9999);  // Prevent overrun of the profile name pushing the username off the screen
+    expectedLabelSize = [adnPost.profileName sizeWithFont:profileNameFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+    cell.profileName.frame = CGRectMake (cell.profileName.frame.origin.x, cell.profileName.frame.origin.y, expectedLabelSize.width, cell.profileName.frame.size.height);
     
-    // Make sure the username can fit
     
-    // Fill in other important info
-    cell.profileName.text = adnPost.profileName;
-    cell.postText.text = adnPost.postText;
+    // Adjust the size and position of the profile username based on the position of profileName
+    expectedLabelSize = [adnPost.profileUsername sizeWithFont:profileUsernameFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+    cell.profileUsername.frame = CGRectMake (cell.profileName.frame.origin.x + cell.profileName.frame.size.width + 5, cell.profileUsername.frame.origin.y, expectedLabelSize.width, 15);
+    
     
     return cell;
 }

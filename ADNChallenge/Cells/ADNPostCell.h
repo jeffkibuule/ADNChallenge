@@ -12,11 +12,13 @@
 {
     IBOutlet UIImageView *profileImage;
     IBOutlet UILabel *profileName;
+    IBOutlet UILabel *profileUsername;
     IBOutlet UILabel *postText;
 }
 
 @property (nonatomic, retain) UIImageView *profileImage;
 @property (nonatomic, retain) UILabel *profileName;
+@property (nonatomic, retain) UILabel *profileUsername;
 @property (nonatomic, retain) UILabel *postText;
 
 @end
