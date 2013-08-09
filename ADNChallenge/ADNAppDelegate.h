@@ -12,11 +12,11 @@
 
 @interface ADNAppDelegate : UIResponder <UIApplicationDelegate>
 {
-     
+    IBOutlet UIWindow *window;
+    IBOutlet UINavigationController *navigationController;
 }
 
 @property (strong, nonatomic) UIWindow *window;
-
-@property (strong, nonatomic) ADNViewController *viewController;
+@property (strong, nonatomic) UINavigationController *navigationController;
 
 @end

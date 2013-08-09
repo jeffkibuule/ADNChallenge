@@ -1,5 +1,5 @@
 //
-//  ADNViewController.h
+//  RootViewController.h
 //  ADNChallenge
 //
 //  Created by Joefrey Kibuule on 8/8/13.
@@ -12,18 +12,16 @@
 
 @class ADNStream;
 
-@interface ADNViewController : UIViewController <ADNStreamDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface RootViewController : UITableViewController <ADNStreamDelegate>
 {
     // UI elements
     UIRefreshControl *refreshControl;
-    IBOutlet UITableView *streamTableView;
     
     // Data elements
     ADNStream *globalStream;
 }
 
 @property (nonatomic, retain) UIRefreshControl *refreshControl;
-@property (nonatomic, retain) UITableView *streamTableView;
 
 @property (nonatomic, retain) ADNStream *globalStream;
 

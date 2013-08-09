@@ -8,16 +8,17 @@
 
 #import "ADNAppDelegate.h"
 
-#import "ADNViewController.h"
+#import "RootViewController.h"
 
 @implementation ADNAppDelegate
 
+@synthesize window;
+@synthesize navigationController;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.viewController = [[ADNViewController alloc] initWithNibName:@"ADNViewController" bundle:nil];
-    self.window.rootViewController = self.viewController;
+    // Create the window and set the main view controller
+    [self.window setRootViewController:navigationController];
     [self.window makeKeyAndVisible];
     return YES;
 } 

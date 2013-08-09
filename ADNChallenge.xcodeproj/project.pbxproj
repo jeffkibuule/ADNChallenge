@@ -25,10 +25,11 @@
 		1F56C83917B483920069F1A1 /* ADNStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56C83717B483920069F1A1 /* ADNStream.m */; };
 		1F56C83C17B484DC0069F1A1 /* Challenge.md in Resources */ = {isa = PBXBuildFile; fileRef = 1F56C83A17B484DC0069F1A1 /* Challenge.md */; };
 		1F56C83D17B484DC0069F1A1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1F56C83B17B484DC0069F1A1 /* README.md */; };
-		1F56C84117B4871B0069F1A1 /* ADNViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56C84017B4871B0069F1A1 /* ADNViewController.m */; };
+		1F56C84117B4871B0069F1A1 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F56C84017B4871B0069F1A1 /* RootViewController.m */; };
 		1FC9FC2B17B49C72003DB54B /* ADNPostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC9FC2A17B49C72003DB54B /* ADNPostCell.m */; };
-		1FC9FC3017B49DF8003DB54B /* ADNViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9FC2E17B49DF8003DB54B /* ADNViewController.xib */; };
+		1FC9FC3017B49DF8003DB54B /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9FC2E17B49DF8003DB54B /* RootViewController.xib */; };
 		1FC9FC3317B49E21003DB54B /* ADNPostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9FC3117B49E21003DB54B /* ADNPostCell.xib */; };
+		1FC9FC3A17B4B30C003DB54B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9FC3817B4B30C003DB54B /* MainWindow.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,12 +68,13 @@
 		1F56C83717B483920069F1A1 /* ADNStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ADNStream.m; path = Models/ADNStream.m; sourceTree = "<group>"; };
 		1F56C83A17B484DC0069F1A1 /* Challenge.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Challenge.md; sourceTree = SOURCE_ROOT; };
 		1F56C83B17B484DC0069F1A1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
-		1F56C83F17B4871B0069F1A1 /* ADNViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ADNViewController.h; path = "View Controllers/ADNViewController.h"; sourceTree = "<group>"; };
-		1F56C84017B4871B0069F1A1 /* ADNViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ADNViewController.m; path = "View Controllers/ADNViewController.m"; sourceTree = "<group>"; };
+		1F56C83F17B4871B0069F1A1 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = "View Controllers/RootViewController.h"; sourceTree = "<group>"; };
+		1F56C84017B4871B0069F1A1 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = "View Controllers/RootViewController.m"; sourceTree = "<group>"; };
 		1FC9FC2917B49C72003DB54B /* ADNPostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ADNPostCell.h; path = Cells/ADNPostCell.h; sourceTree = "<group>"; };
 		1FC9FC2A17B49C72003DB54B /* ADNPostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ADNPostCell.m; path = Cells/ADNPostCell.m; sourceTree = "<group>"; };
-		1FC9FC2F17B49DF8003DB54B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ADNViewController.xib; sourceTree = "<group>"; };
+		1FC9FC2F17B49DF8003DB54B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
 		1FC9FC3217B49E21003DB54B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ADNPostCell.xib; sourceTree = "<group>"; };
+		1FC9FC3917B4B30C003DB54B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,8 +194,8 @@
 		1F56C83E17B486D10069F1A1 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1F56C83F17B4871B0069F1A1 /* ADNViewController.h */,
-				1F56C84017B4871B0069F1A1 /* ADNViewController.m */,
+				1F56C83F17B4871B0069F1A1 /* RootViewController.h */,
+				1F56C84017B4871B0069F1A1 /* RootViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -210,7 +212,8 @@
 		1FC9FC2D17B49DE2003DB54B /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
-				1FC9FC2E17B49DF8003DB54B /* ADNViewController.xib */,
+				1FC9FC3817B4B30C003DB54B /* MainWindow.xib */,
+				1FC9FC2E17B49DF8003DB54B /* RootViewController.xib */,
 				1FC9FC3117B49E21003DB54B /* ADNPostCell.xib */,
 			);
 			name = XIBs;
@@ -294,8 +297,9 @@
 				1F56C80917B4828A0069F1A1 /* Default-568h@2x.png in Resources */,
 				1F56C83C17B484DC0069F1A1 /* Challenge.md in Resources */,
 				1F56C83D17B484DC0069F1A1 /* README.md in Resources */,
-				1FC9FC3017B49DF8003DB54B /* ADNViewController.xib in Resources */,
+				1FC9FC3017B49DF8003DB54B /* RootViewController.xib in Resources */,
 				1FC9FC3317B49E21003DB54B /* ADNPostCell.xib in Resources */,
+				1FC9FC3A17B4B30C003DB54B /* MainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,7 +338,7 @@
 				1F56C80317B4828A0069F1A1 /* ADNAppDelegate.m in Sources */,
 				1F56C83817B483920069F1A1 /* ADNPost.m in Sources */,
 				1F56C83917B483920069F1A1 /* ADNStream.m in Sources */,
-				1F56C84117B4871B0069F1A1 /* ADNViewController.m in Sources */,
+				1F56C84117B4871B0069F1A1 /* RootViewController.m in Sources */,
 				1FC9FC2B17B49C72003DB54B /* ADNPostCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,12 +378,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		1FC9FC2E17B49DF8003DB54B /* ADNViewController.xib */ = {
+		1FC9FC2E17B49DF8003DB54B /* RootViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1FC9FC2F17B49DF8003DB54B /* en */,
 			);
-			name = ADNViewController.xib;
+			name = RootViewController.xib;
 			sourceTree = "<group>";
 		};
 		1FC9FC3117B49E21003DB54B /* ADNPostCell.xib */ = {
@@ -388,6 +392,14 @@
 				1FC9FC3217B49E21003DB54B /* en */,
 			);
 			name = ADNPostCell.xib;
+			sourceTree = "<group>";
+		};
+		1FC9FC3817B4B30C003DB54B /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1FC9FC3917B4B30C003DB54B /* en */,
+			);
+			name = MainWindow.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

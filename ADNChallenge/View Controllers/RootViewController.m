@@ -1,24 +1,23 @@
 //
-//  ADNViewController.m
+//  RootViewController.m
 //  ADNChallenge
 //
 //  Created by Joefrey Kibuule on 8/8/13.
 //  Copyright (c) 2013 Joefrey Kibuule. All rights reserved.
 //
 
-#import "ADNViewController.h"
+#import "RootViewController.h"
 
 #import "ADNStream.h"
 #import "ADNPost.h"
 #import "ADNPostCell.h"
 
-@interface ADNViewController ()
+@interface RootViewController ()
 
 @end 
 
-@implementation ADNViewController
+@implementation RootViewController
 
-@synthesize streamTableView;
 @synthesize refreshControl;
 
 @synthesize globalStream;
@@ -40,6 +39,8 @@
     
     // Setup the refresh control
     refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    [refreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
     
     // Setup the data object
@@ -65,10 +66,27 @@
 #pragma mark Custom Methods
 - (void)streamRefreshedWithError:(NSError *)error
 {
+    // No longer refreshing
+    [refreshControl endRefreshing];
+    
     if (error == nil)
-        [self.streamTableView reloadData];
+        [self.tableView reloadData];
     else
         NSLog(@"Error loading data: %@", [error description]);
+}
+
+#pragma mark -
+#pragma mark Refresh Control Methods
+-(void)refreshView:(UIRefreshControl *)refresh {
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing data..."];
+    
+    // custom refresh logic would be placed here...
+    [globalStream refreshStream];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MMM d, h:mm a"];
+    NSString *lastUpdated = [NSString stringWithFormat:@"Last updated on %@", [formatter stringFromDate:[NSDate date]]];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
 }
 
 #pragma mark -
@@ -104,8 +122,12 @@
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ADNPostCell"  owner:self options:nil];
         cell = (ADNPostCell *)[nib objectAtIndex:0];
-        [adnPost loadProfileImageFromWeb];
-        [cell.profileImage setImage:adnPost.profileImage];
+        
+        NSString *imageUrl = adnPost.profileImageURL;
+        [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrl]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+            cell.profileImage.image = [UIImage imageWithData:data];
+        }];
+        
         cell.profileName.text = adnPost.profileName;
         cell.postText.text = adnPost.postText;
     }
