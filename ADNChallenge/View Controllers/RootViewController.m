@@ -10,11 +10,15 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#import "Reachability.h"
+
 #import "ADNStream.h"
 #import "ADNPost.h"
 #import "ADNPostCell.h"
 
 @interface RootViewController ()
+
+-(void)reachabilityChanged:(NSNotification*)note;
 
 @end 
 
@@ -31,6 +35,8 @@
 @synthesize dateFormatter;
 
 @synthesize globalStream;
+
+@synthesize networkReachable;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -57,7 +63,6 @@
     globalStream.streamName = @"App.net Global Stream";
     globalStream.streamDelegate = self;
     [globalStream setAPIPoint:@"https://alpha-api.app.net/stream/0/posts/stream/global"];
-    [globalStream refreshStream];
     
     // Cache the system fonts used when evlanuating the appropriate width and height of UILabel objects
     profileNameFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:13.0];            // Bill Gates
@@ -74,6 +79,36 @@
     
     // Load the ADN profile placeholder image
     adnPlaceholderImage = [UIImage imageNamed:@"ADNPlaceholderImage.png"];
+    
+    
+    // Use the Reachability library to set up a notifier for network reachability
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reachabilityChanged:)
+                                                 name:kReachabilityChangedNotification
+                                               object:nil];
+    
+    Reachability * reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    // Set up 2 GCD blocks for responding to network reachability
+    reach.reachableBlock = ^(Reachability * reachability)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            networkReachable = true;
+            
+            // Network reachable, reload more data
+            [self.streamRefreshControl beginRefreshing];
+            [self refreshView:self.streamRefreshControl];
+        });
+    };
+    
+    reach.unreachableBlock = ^(Reachability * reachability)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            networkReachable = false;
+        });
+    };
+    
+    [reach startNotifier];
 }
 
 - (void)didReceiveMemoryWarning
@@ -96,17 +131,45 @@
 }
 
 #pragma mark -
+#pragma mark Reachability Methods
+-(void)reachabilityChanged:(NSNotification*)note
+{
+    Reachability * reach = [note object];
+    
+    if([reach isReachable])
+    {
+        
+    }
+    else
+    {
+        
+    }
+}
+
+#pragma mark -
 #pragma mark Refresh Control Methods
 -(void)refreshView:(UIRefreshControl *)refresh {
-    streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing data..."];
     
-    // custom refresh logic would be placed here...
-    [globalStream refreshStream];
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"MMM d, h:mm a"];
-    NSString *lastUpdated = [NSString stringWithFormat:@"Last updated on %@", [formatter stringFromDate:[NSDate date]]];
-    streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
+    // See if the network is reachable
+    if (networkReachable)
+    {
+        streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing data..."];
+        
+        // custom refresh logic would be placed here...
+        [globalStream refreshStream];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MMM d, h:mm a"];
+        NSString *lastUpdated = [NSString stringWithFormat:@"Last updated on %@", [formatter stringFromDate:[NSDate date]]];
+        streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
+    }
+    else
+    {
+        // No data connection present
+        streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"No data connection"];
+        
+        [streamRefreshControl endRefreshing];
+    }
 }
 
 #pragma mark -

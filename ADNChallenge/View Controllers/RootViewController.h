@@ -12,7 +12,7 @@
 
 
 #define kPostTextViewWidth           230.0      // Width of the post view text (also needs to be adjusted in ADNPostCell.xib)
-#define kMaxUsernameWidth            130.0      // Maximum width of the profile name so it doesn't overflow
+#define kMaxUsernameWidth            150.0      // Maximum width of the profile name so it doesn't overflow
 #define kProfileImageCornerRadius    9.0       // Profile image corner radius
 
 @class ADNStream;
@@ -32,6 +32,8 @@
     
     // Data elements
     ADNStream *globalStream;
+    
+    BOOL networkReachable;
 }
 
 @property (nonatomic, retain) UIRefreshControl *streamRefreshControl;
@@ -45,6 +47,8 @@
 @property (nonatomic, retain) NSDateFormatter *dateFormatter;
 
 @property (nonatomic, retain) ADNStream *globalStream;
+
+@property (nonatomic, readwrite) BOOL networkReachable;
 
 - (void)refreshView:(UIRefreshControl *)refresh;
 

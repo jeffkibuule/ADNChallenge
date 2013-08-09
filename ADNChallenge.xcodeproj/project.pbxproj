@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F153BB717B59C120087433E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F153BB517B59C120087433E /* Icon.png */; };
+		1F153BB817B59C120087433E /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F153BB617B59C120087433E /* Icon@2x.png */; };
+		1F153BBA17B59C270087433E /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F153BB917B59C270087433E /* Icon@2x.png */; };
+		1F153BBC17B59C2D0087433E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F153BBB17B59C2D0087433E /* Icon.png */; };
+		1F153BC117B5A0A90087433E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F153BC017B5A0A90087433E /* Reachability.m */; };
+		1F153BC317B5A24D0087433E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F153BC217B5A24D0087433E /* SystemConfiguration.framework */; };
 		1F56C7F317B4828A0069F1A1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F56C7F217B4828A0069F1A1 /* UIKit.framework */; };
 		1F56C7F517B4828A0069F1A1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F56C7F417B4828A0069F1A1 /* Foundation.framework */; };
 		1F56C7F717B4828A0069F1A1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F56C7F617B4828A0069F1A1 /* CoreGraphics.framework */; };
@@ -45,6 +51,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F153BB517B59C120087433E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images/Icon.png; sourceTree = "<group>"; };
+		1F153BB617B59C120087433E /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Images/Icon@2x.png"; sourceTree = "<group>"; };
+		1F153BB917B59C270087433E /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		1F153BBB17B59C2D0087433E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		1F153BBF17B5A0A90087433E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Libraries/Reachability/Reachability.h; sourceTree = "<group>"; };
+		1F153BC017B5A0A90087433E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Libraries/Reachability/Reachability.m; sourceTree = "<group>"; };
+		1F153BC217B5A24D0087433E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1F56C7EF17B4828A0069F1A1 /* ADNChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ADNChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F56C7F217B4828A0069F1A1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1F56C7F417B4828A0069F1A1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -86,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F153BC317B5A24D0087433E /* SystemConfiguration.framework in Frameworks */,
 				1FC9FC3F17B56A18003DB54B /* QuartzCore.framework in Frameworks */,
 				1F56C7F317B4828A0069F1A1 /* UIKit.framework in Frameworks */,
 				1F56C7F517B4828A0069F1A1 /* Foundation.framework in Frameworks */,
@@ -106,9 +120,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F153BBD17B5A0900087433E /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1F153BBE17B5A0970087433E /* Reachability */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		1F153BBE17B5A0970087433E /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				1F153BBF17B5A0A90087433E /* Reachability.h */,
+				1F153BC017B5A0A90087433E /* Reachability.m */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		1F56C7E617B4828A0069F1A1 = {
 			isa = PBXGroup;
 			children = (
+				1F153BC217B5A24D0087433E /* SystemConfiguration.framework */,
+				1F153BBB17B59C2D0087433E /* Icon.png */,
+				1F153BB917B59C270087433E /* Icon@2x.png */,
 				1FC9FC3E17B56A18003DB54B /* QuartzCore.framework */,
 				1F56C7F817B4828A0069F1A1 /* ADNChallenge */,
 				1F56C81C17B4828A0069F1A1 /* ADNChallengeTests */,
@@ -142,6 +176,7 @@
 		1F56C7F817B4828A0069F1A1 /* ADNChallenge */ = {
 			isa = PBXGroup;
 			children = (
+				1F153BBD17B5A0900087433E /* Libraries */,
 				1FC9FC2817B49C28003DB54B /* Cells */,
 				1F56C82D17B483070069F1A1 /* Models */,
 				1F56C83E17B486D10069F1A1 /* View Controllers */,
@@ -229,6 +264,8 @@
 		1FC9FC3B17B5651D003DB54B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1F153BB517B59C120087433E /* Icon.png */,
+				1F153BB617B59C120087433E /* Icon@2x.png */,
 				1FC9FC3C17B56530003DB54B /* ADNPlaceholderImage.png */,
 			);
 			name = Images;
@@ -316,6 +353,10 @@
 				1FC9FC3317B49E21003DB54B /* ADNPostCell.xib in Resources */,
 				1FC9FC3A17B4B30C003DB54B /* MainWindow.xib in Resources */,
 				1FC9FC3D17B56530003DB54B /* ADNPlaceholderImage.png in Resources */,
+				1F153BB717B59C120087433E /* Icon.png in Resources */,
+				1F153BB817B59C120087433E /* Icon@2x.png in Resources */,
+				1F153BBA17B59C270087433E /* Icon@2x.png in Resources */,
+				1F153BBC17B59C2D0087433E /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +397,7 @@
 				1F56C83917B483920069F1A1 /* ADNStream.m in Sources */,
 				1F56C84117B4871B0069F1A1 /* RootViewController.m in Sources */,
 				1FC9FC2B17B49C72003DB54B /* ADNPostCell.m in Sources */,
+				1F153BC117B5A0A90087433E /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
