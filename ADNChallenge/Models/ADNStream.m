@@ -75,21 +75,7 @@
         for (NSDictionary *postDict in latestPosts)
         {
             // Process each dictionary item
-            ADNPost *adnPost = [[ADNPost alloc] init];
-            adnPost.postJSONDict = postDict;
-            [adnPost processJSON];
-            
-            // Special case, can only insert an object if an object already exists, otherwise do a normal add
-            if ([streamPostsArray count] == 0)
-                [streamPostsArray addObject:adnPost];
-            else
-            {
-                [streamPostsArray insertObject:adnPost atIndex:0];
-            }
-            
-            // Do we get data?
-            NSLog(@"name: %@", adnPost.profileName);
-            NSLog(@"image url: %@", adnPost.profileImageURL);
+            [self addPost:postDict position:0];
         }
     }
     
@@ -98,6 +84,25 @@
         [streamDelegate streamRefreshedWithError:error];
     else
         NSLog (@"No delegate for %@ stream has been set", self.streamName);
+}
+
+// Adds a post from the stream to the array using a dictionary of parsed JSON
+- (void) addPost: (NSDictionary *) postDict position:(NSUInteger) postPosition
+{
+    // Process each dictionary item
+    ADNPost *adnPost = [[ADNPost alloc] init];
+    adnPost.postJSONDict = postDict;
+    [adnPost processJSON];
+    
+    // Special case, can only insert an object if an object already exists in the array, otherwise do a normal add
+    if ([streamPostsArray count] == 0)
+        [streamPostsArray addObject:adnPost];
+    else
+    {
+        [streamPostsArray insertObject:adnPost atIndex:postPosition];
+    }
+    
+    NSLog(@"Added %@'s post to %@ stream array. Now %d post(s) in stream.", adnPost.profileName, self.streamName, [self numPosts]);
 }
 
 // Returns the number of posts in this stream

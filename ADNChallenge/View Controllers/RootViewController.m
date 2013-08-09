@@ -20,6 +20,10 @@
 
 @synthesize refreshControl;
 
+@synthesize profileNameFont;
+@synthesize profileUsernameFont;
+@synthesize postTextFont;
+
 @synthesize globalStream;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -49,6 +53,10 @@
     globalStream.streamDelegate = self;
     [globalStream setAPIPoint:@"https://alpha-api.app.net/stream/0/posts/stream/global"];
     [globalStream refreshStream];
+    
+    // Create the font
+    profileNameFont = [UIFont boldSystemFontOfSize:13];
+    postTextFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
     
     // Set the title
     self.title = globalStream.streamName;
@@ -116,23 +124,58 @@
 	NSUInteger row = [indexPath row];
     
     ADNPost *adnPost = [globalStream getPostAtIndex: row];
+    
     // Get the cell XIB
     ADNPostCell *cell = (ADNPostCell *)[tableView dequeueReusableCellWithIdentifier:ADNPostCellIdentifier];
     if (cell == nil)
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ADNPostCell"  owner:self options:nil];
         cell = (ADNPostCell *)[nib objectAtIndex:0];
-        
-        NSString *imageUrl = adnPost.profileImageURL;
-        [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrl]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-            cell.profileImage.image = [UIImage imageWithData:data];
-        }];
-        
-        cell.profileName.text = adnPost.profileName;
-        cell.postText.text = adnPost.postText;
     }
+    
+    // Load the profile image asychrononously to prevent blocking of the UI thread
+    NSString *imageUrl = adnPost.profileImageURL;
+    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrl]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        cell.profileImage.image = [UIImage imageWithData:data];
+    }];
+    
+    
+    // Adjust the label the the new height.
+    CGSize maximumLabelSize = CGSizeMake(kPostTextViewWidth,9999);
+    CGSize expectedLabelSize = [adnPost.postText sizeWithFont:postTextFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+    
+    CGRect newFrame = CGRectMake(70, 20, kPostTextViewWidth, 32);
+    
+    // Set the height of the label
+    newFrame.size.height = expectedLabelSize.height+20;
+    cell.postText.frame = newFrame;
+    
+    // Make sure the username can fit
+    
+    // Fill in other important info
+    cell.profileName.text = adnPost.profileName;
+    cell.postText.text = adnPost.postText;
+    
     return cell;
 }
 
+// Customize the height of the table view cell based on the text size
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Get the section and row
+	NSUInteger section = [indexPath section];
+	NSUInteger row = [indexPath row];
+    
+    NSUInteger height;
+    ADNPost *adnPost = [globalStream getPostAtIndex:row];
+    
+    CGSize maximumLabelSize = CGSizeMake(kPostTextViewWidth,9999);
+	CGSize expectedLabelSize = [adnPost.postText sizeWithFont:postTextFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+	
+    // Set the height of the label and enforce a minimum height
+	height = (expectedLabelSize.height+40 > 72 ? expectedLabelSize.height+40 : 72);
+    
+    return height;
+}
 
 @end

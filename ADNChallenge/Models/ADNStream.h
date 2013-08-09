@@ -49,6 +49,7 @@
 
 
 - (NSUInteger) numPosts;
+- (void) addPost: (NSDictionary *) postDict position:(NSUInteger) postPosition;
 - (ADNPost *) getPostAtIndex: (NSUInteger) postIndex;
 
 // Unit tests

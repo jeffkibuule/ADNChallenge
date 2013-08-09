@@ -35,9 +35,8 @@
 
 @property (nonatomic, retain) NSDictionary *postJSONDict;
 
-// Methods - none (class only stores data)
+// Methods 
 - (void) processJSON;
-- (void) loadProfileImageFromWeb;
 
 // Unit tests - none (class only stores data)
 
