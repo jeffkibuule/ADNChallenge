@@ -15,10 +15,13 @@
 
 @interface ADNPost : NSObject {
     // User post data
+    NSString *postID;
     NSString *profileName;              // ex. Bill Gates
     NSString *profileUsername;          // ex. billgates
     NSString *profileImageURL;
     NSString *postText;
+    NSString *postTimestampString;
+    NSDate *postTimestampDate;
     
     UIImage* profileImage;
     
@@ -26,10 +29,13 @@
     NSDictionary *postJSONDict;
 }
 
+@property (nonatomic, retain) NSString *postID;
 @property (nonatomic, retain) NSString *profileName;
 @property (nonatomic, retain) NSString *profileUsername;
 @property (nonatomic, retain) NSString *profileImageURL;
 @property (nonatomic, retain) NSString *postText;
+@property (nonatomic, retain) NSString *postTimestampString;
+@property (nonatomic, retain) NSDate *postTimestampDate;
 
 @property (nonatomic, retain) UIImage *profileImage;
 

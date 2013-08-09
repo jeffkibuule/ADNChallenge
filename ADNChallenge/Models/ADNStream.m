@@ -71,12 +71,40 @@
     // Make sure there are no errors
     if (!error)
     {
-        // Go through all of the latest posts
-        for (NSDictionary *postDict in latestPosts)
+        // Go through all of the latest posts in *reverse order* so that we only add new ones
+        // If there are no new posts in the array, we don't need to check then
+        if ([self.streamPostsArray count] == 0)
         {
-            // Process each dictionary item
-            [self addPost:postDict position:0];
+            // Go through all of the latest posts
+            for (NSDictionary *postDict in latestPosts)
+            {
+                // Process each dictionary item and create a new post
+                [self addPost:[self createPostFromDict:postDict] position:0];
+            }
         }
+        else
+        {
+            // Previous top item
+            ADNPost *topPost = [self.streamPostsArray objectAtIndex:0];
+            NSMutableArray *newPostsArray = [[NSMutableArray alloc] init];
+            
+            for (NSDictionary *postDict in latestPosts)
+            {
+                // Process each dictionary item
+                ADNPost *post = [self createPostFromDict:postDict];
+                
+                // Check and see if the top item has the same ID, if it does, then this post already exists in the stream, otherwise add it
+                if ([post.postTimestampDate compare:topPost.postTimestampDate] == NSOrderedDescending)
+                {
+                    [newPostsArray addObject:post];
+                }
+            }
+            
+            [newPostsArray addObjectsFromArray:self.streamPostsArray];
+            self.streamPostsArray = newPostsArray;
+            newPostsArray = nil;
+        }
+
     }
     
     // Notify the delegate of our results
@@ -86,25 +114,24 @@
         NSLog (@"No delegate for %@ stream has been set", self.streamName);
 }
 
-// Adds a post from the stream to the array using a dictionary of parsed JSON
-- (void) addPost: (NSDictionary *) postDict position:(NSUInteger) postPosition
+// Creates a ADN post from a NSDictionary full of JSON data
+- (ADNPost *) createPostFromDict: (NSDictionary *) postDict
 {
-    // Process each dictionary item
     ADNPost *adnPost = [[ADNPost alloc] init];
     adnPost.postJSONDict = postDict;
     [adnPost processJSON];
     
-    // Special case, can only insert an object if an object already exists in the array, otherwise do a normal add
-    if ([streamPostsArray count] == 0)
-        [streamPostsArray addObject:adnPost];
-    else
-    {
-        [streamPostsArray insertObject:adnPost atIndex:postPosition];
-    }
+    return adnPost;
+}
+
+// Adds a post from the stream to the array 
+- (void) addPost: (ADNPost *) adnPost position:(NSUInteger) postPosition
+{
+    // 
+    [streamPostsArray addObject:adnPost];
     
     
     NSLog(@"Added %@'s post to %@ stream array. Now %d post(s) in stream.", adnPost.profileName, self.streamName, [self numPosts]);
-    NSLog(@"%@", adnPost.profileImageURL);
 }
 
 // Returns the number of posts in this stream

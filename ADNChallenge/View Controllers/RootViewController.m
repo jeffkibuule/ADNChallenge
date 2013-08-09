@@ -8,6 +8,8 @@
 
 #import "RootViewController.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "ADNStream.h"
 #import "ADNPost.h"
 #import "ADNPostCell.h"
@@ -25,6 +27,8 @@
 @synthesize profileNameFont;
 @synthesize profileUsernameFont;
 @synthesize postTextFont;
+
+@synthesize dateFormatter;
 
 @synthesize globalStream;
 
@@ -62,6 +66,11 @@
     
     // Set the title
     self.title = globalStream.streamName;
+    
+    // Set up the date format
+    dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"h:mm:ss a"];
+    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
     
     // Load the ADN profile placeholder image
     adnPlaceholderImage = [UIImage imageNamed:@"ADNPlaceholderImage.png"];
@@ -142,6 +151,11 @@
         // Haven't downloaded this image, set a placeholder image then grab the real one off the web
         cell.profileImage.image = adnPlaceholderImage;
         
+        // Create a rounded border mask on the imageview
+        cell.profileImage.layer.masksToBounds = YES;
+        cell.profileImage.layer.cornerRadius = kProfileImageCornerRadius;
+        cell.profileImage.layer.borderWidth = 1.0;
+        
         NSString *imageUrl = adnPost.profileImageURL;
         [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrl]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
             cell.profileImage.image = [UIImage imageWithData:data];
@@ -159,6 +173,8 @@
     cell.profileUsername.text = adnPost.profileUsername;
     cell.postText.text = adnPost.postText;
     
+    cell.postTimestamp.text = [dateFormatter stringFromDate:adnPost.postTimestampDate];
+    //NSLog(@"%@", cell.postTimestamp.text);
     
     // Adjust the label the the new height.
     CGSize maximumLabelSize = CGSizeMake(kPostTextViewWidth,9999);

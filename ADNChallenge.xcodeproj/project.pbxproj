@@ -31,6 +31,7 @@
 		1FC9FC3317B49E21003DB54B /* ADNPostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9FC3117B49E21003DB54B /* ADNPostCell.xib */; };
 		1FC9FC3A17B4B30C003DB54B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9FC3817B4B30C003DB54B /* MainWindow.xib */; };
 		1FC9FC3D17B56530003DB54B /* ADNPlaceholderImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9FC3C17B56530003DB54B /* ADNPlaceholderImage.png */; };
+		1FC9FC3F17B56A18003DB54B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC9FC3E17B56A18003DB54B /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		1FC9FC3217B49E21003DB54B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ADNPostCell.xib; sourceTree = "<group>"; };
 		1FC9FC3917B4B30C003DB54B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		1FC9FC3C17B56530003DB54B /* ADNPlaceholderImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ADNPlaceholderImage.png; path = Images/ADNPlaceholderImage.png; sourceTree = "<group>"; };
+		1FC9FC3E17B56A18003DB54B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FC9FC3F17B56A18003DB54B /* QuartzCore.framework in Frameworks */,
 				1F56C7F317B4828A0069F1A1 /* UIKit.framework in Frameworks */,
 				1F56C7F517B4828A0069F1A1 /* Foundation.framework in Frameworks */,
 				1F56C7F717B4828A0069F1A1 /* CoreGraphics.framework in Frameworks */,
@@ -106,6 +109,7 @@
 		1F56C7E617B4828A0069F1A1 = {
 			isa = PBXGroup;
 			children = (
+				1FC9FC3E17B56A18003DB54B /* QuartzCore.framework */,
 				1F56C7F817B4828A0069F1A1 /* ADNChallenge */,
 				1F56C81C17B4828A0069F1A1 /* ADNChallengeTests */,
 				1F56C7F117B4828A0069F1A1 /* Frameworks */,

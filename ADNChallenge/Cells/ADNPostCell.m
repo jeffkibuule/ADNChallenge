@@ -14,6 +14,7 @@
 @synthesize profileName;
 @synthesize profileUsername;
 @synthesize postText;
+@synthesize postTimestamp;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
