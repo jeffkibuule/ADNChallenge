@@ -87,9 +87,10 @@
                                                  name:kReachabilityChangedNotification
                                                object:nil];
     
+    // Google should ALWAYS be reachable otherwise something has gone awry
     Reachability * reach = [Reachability reachabilityWithHostname:@"www.google.com"];
     
-    // Set up 2 GCD blocks for responding to network reachability
+    // Set up 2 GCD blocks for responding to network reachability, this way should be iOS 7 proof when the user can change connectivity via Control Center
     reach.reachableBlock = ^(Reachability * reachability)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -108,6 +109,7 @@
         });
     };
     
+    // Start up notifications
     [reach startNotifier];
 }
 
@@ -124,6 +126,10 @@
     // No longer refreshing
     [streamRefreshControl endRefreshing];
     
+    // Change the title so we know how many posts we have in the stream
+    self.title = [NSString stringWithFormat:@"%@ (%d)", globalStream.streamName, [globalStream numPosts]];
+    
+    // Reload the tablet if we don't have an error
     if (error == nil)
         [self.tableView reloadData];
     else
@@ -132,6 +138,7 @@
 
 #pragma mark -
 #pragma mark Reachability Methods
+// Reachability callback method, useful for needing to respond to reachability notifications that can't use GCD due to UI only being on main thread
 -(void)reachabilityChanged:(NSNotification*)note
 {
     Reachability * reach = [note object];
@@ -159,7 +166,7 @@
         [globalStream refreshStream];
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"MMM d, h:mm a"];
+        [formatter setDateFormat:@"MMM d, h:mm:ss a"];
         NSString *lastUpdated = [NSString stringWithFormat:@"Last updated on %@", [formatter stringFromDate:[NSDate date]]];
         streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
     }
@@ -195,7 +202,6 @@
     static NSString *ADNPostCellIdentifier = @"ADNPostCellIdentifier";
 	
 	// Get the section and row
-	NSUInteger section = [indexPath section];
 	NSUInteger row = [indexPath row];
     
     ADNPost *adnPost = [globalStream getPostAtIndex: row];
@@ -267,7 +273,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Get the section and row
-	NSUInteger section = [indexPath section];
 	NSUInteger row = [indexPath row];
     
     NSUInteger height;
