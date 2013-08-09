@@ -18,7 +18,9 @@
 
 @implementation RootViewController
 
-@synthesize refreshControl;
+@synthesize streamRefreshControl;
+
+@synthesize adnPlaceholderImage;
 
 @synthesize profileNameFont;
 @synthesize profileUsernameFont;
@@ -31,6 +33,7 @@
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
     {
         // Custom initialization
+        
     }
     
     return self;
@@ -39,13 +42,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     
     // Setup the refresh control
-    refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-    [refreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
-    self.refreshControl = refreshControl;
+    streamRefreshControl = [[UIRefreshControl alloc] init];
+    [streamRefreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = streamRefreshControl;
     
     // Setup the data object
     globalStream = [[ADNStream alloc] init];
@@ -55,12 +56,15 @@
     [globalStream refreshStream];
     
     // Cache the system fonts used when evlanuating the appropriate width and height of UILabel objects
-    profileNameFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:13.0];           // Bill Gates
+    profileNameFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:13.0];            // Bill Gates
     profileUsernameFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0];       // @billgates
     postTextFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];              // I am Bill Gates
     
     // Set the title
     self.title = globalStream.streamName;
+    
+    // Load the ADN profile placeholder image
+    adnPlaceholderImage = [UIImage imageNamed:@"ADNPlaceholderImage.png"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -74,7 +78,7 @@
 - (void)streamRefreshedWithError:(NSError *)error
 {
     // No longer refreshing
-    [refreshControl endRefreshing];
+    [streamRefreshControl endRefreshing];
     
     if (error == nil)
         [self.tableView reloadData];
@@ -85,7 +89,7 @@
 #pragma mark -
 #pragma mark Refresh Control Methods
 -(void)refreshView:(UIRefreshControl *)refresh {
-    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing data..."];
+    streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing data..."];
     
     // custom refresh logic would be placed here...
     [globalStream refreshStream];
@@ -93,7 +97,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"MMM d, h:mm a"];
     NSString *lastUpdated = [NSString stringWithFormat:@"Last updated on %@", [formatter stringFromDate:[NSDate date]]];
-    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
+    streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
 }
 
 #pragma mark -
@@ -135,7 +139,9 @@
     // Load the profile image asychrononously to prevent blocking of the UI thread
     if (adnPost.profileImage == nil)
     {
-        // Haven't downloaded this image, go grab it off the web
+        // Haven't downloaded this image, set a placeholder image then grab the real one off the web
+        cell.profileImage.image = adnPlaceholderImage;
+        
         NSString *imageUrl = adnPost.profileImageURL;
         [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrl]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
             cell.profileImage.image = [UIImage imageWithData:data];

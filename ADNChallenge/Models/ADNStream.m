@@ -102,7 +102,9 @@
         [streamPostsArray insertObject:adnPost atIndex:postPosition];
     }
     
+    
     NSLog(@"Added %@'s post to %@ stream array. Now %d post(s) in stream.", adnPost.profileName, self.streamName, [self numPosts]);
+    NSLog(@"%@", adnPost.profileImageURL);
 }
 
 // Returns the number of posts in this stream

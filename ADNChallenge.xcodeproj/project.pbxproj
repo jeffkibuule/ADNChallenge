@@ -30,6 +30,7 @@
 		1FC9FC3017B49DF8003DB54B /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9FC2E17B49DF8003DB54B /* RootViewController.xib */; };
 		1FC9FC3317B49E21003DB54B /* ADNPostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9FC3117B49E21003DB54B /* ADNPostCell.xib */; };
 		1FC9FC3A17B4B30C003DB54B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9FC3817B4B30C003DB54B /* MainWindow.xib */; };
+		1FC9FC3D17B56530003DB54B /* ADNPlaceholderImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC9FC3C17B56530003DB54B /* ADNPlaceholderImage.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		1FC9FC2F17B49DF8003DB54B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
 		1FC9FC3217B49E21003DB54B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ADNPostCell.xib; sourceTree = "<group>"; };
 		1FC9FC3917B4B30C003DB54B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		1FC9FC3C17B56530003DB54B /* ADNPlaceholderImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ADNPlaceholderImage.png; path = Images/ADNPlaceholderImage.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 		1F56C7F917B4828A0069F1A1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1FC9FC3B17B5651D003DB54B /* Images */,
 				1FC9FC2D17B49DE2003DB54B /* XIBs */,
 				1F56C7FA17B4828A0069F1A1 /* ADNChallenge-Info.plist */,
 				1F56C7FB17B4828A0069F1A1 /* InfoPlist.strings */,
@@ -217,6 +220,14 @@
 				1FC9FC3117B49E21003DB54B /* ADNPostCell.xib */,
 			);
 			name = XIBs;
+			sourceTree = "<group>";
+		};
+		1FC9FC3B17B5651D003DB54B /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				1FC9FC3C17B56530003DB54B /* ADNPlaceholderImage.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,6 +311,7 @@
 				1FC9FC3017B49DF8003DB54B /* RootViewController.xib in Resources */,
 				1FC9FC3317B49E21003DB54B /* ADNPostCell.xib in Resources */,
 				1FC9FC3A17B4B30C003DB54B /* MainWindow.xib in Resources */,
+				1FC9FC3D17B56530003DB54B /* ADNPlaceholderImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
