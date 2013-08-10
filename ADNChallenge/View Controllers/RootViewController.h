@@ -34,6 +34,8 @@
     ADNStream *globalStream;
     
     BOOL networkReachable;
+    BOOL hasReachedNetwork;     // Used to store if the app has ever connected to the Internet when first launched, otherwise we will have a blank table, so pop a message
+    BOOL hasShownUnreachableAlert;
 }
 
 @property (nonatomic, retain) UIRefreshControl *streamRefreshControl;
@@ -49,6 +51,8 @@
 @property (nonatomic, retain) ADNStream *globalStream;
 
 @property (nonatomic, readwrite) BOOL networkReachable;
+@property (nonatomic, readwrite) BOOL hasReachedNetwork;
+@property (nonatomic, readwrite) BOOL hasShownUnreachableAlert;
 
 - (void)refreshView:(UIRefreshControl *)refresh;
 

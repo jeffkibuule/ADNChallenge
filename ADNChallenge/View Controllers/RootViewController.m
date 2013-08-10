@@ -37,13 +37,16 @@
 @synthesize globalStream;
 
 @synthesize networkReachable;
+@synthesize hasReachedNetwork;
+@synthesize hasShownUnreachableAlert;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
     {
         // Custom initialization
-        
+        hasReachedNetwork = FALSE;
+        hasShownUnreachableAlert = FALSE;
     }
     
     return self;
@@ -95,6 +98,7 @@
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             networkReachable = true;
+            hasReachedNetwork = TRUE;
             
             // Network reachable, reload more data
             [self.streamRefreshControl beginRefreshing];
@@ -106,6 +110,16 @@
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             networkReachable = false;
+            
+            // We've never had network connectivity, so pop open a dialog box explaining as such
+            if (!hasReachedNetwork && !hasShownUnreachableAlert)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No network connection" message:@"You must be connected to the internet to use this app." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+                
+                // Only show this popup once
+                hasShownUnreachableAlert = true;
+            }
         });
     };
     
@@ -271,7 +285,7 @@
     return cell;
 }
 
-// Called when a table view cell row has been selected
+// Called when a table view cell row has been selected 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
