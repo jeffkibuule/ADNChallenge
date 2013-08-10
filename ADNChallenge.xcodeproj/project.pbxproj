@@ -13,6 +13,9 @@
 		1F153BBC17B59C2D0087433E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F153BBB17B59C2D0087433E /* Icon.png */; };
 		1F153BC117B5A0A90087433E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F153BC017B5A0A90087433E /* Reachability.m */; };
 		1F153BC317B5A24D0087433E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F153BC217B5A24D0087433E /* SystemConfiguration.framework */; };
+		1F153BC617B5B3300087433E /* adntest1.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F153BC517B5B3300087433E /* adntest1.json */; };
+		1F153BCB17B5CBD60087433E /* adntest2.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F153BCA17B5CBD60087433E /* adntest2.json */; };
+		1F153BD117B5D66B0087433E /* TestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F153BD017B5D66B0087433E /* TestHelper.m */; };
 		1F56C7F317B4828A0069F1A1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F56C7F217B4828A0069F1A1 /* UIKit.framework */; };
 		1F56C7F517B4828A0069F1A1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F56C7F417B4828A0069F1A1 /* Foundation.framework */; };
 		1F56C7F717B4828A0069F1A1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F56C7F617B4828A0069F1A1 /* CoreGraphics.framework */; };
@@ -58,6 +61,10 @@
 		1F153BBF17B5A0A90087433E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Libraries/Reachability/Reachability.h; sourceTree = "<group>"; };
 		1F153BC017B5A0A90087433E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Libraries/Reachability/Reachability.m; sourceTree = "<group>"; };
 		1F153BC217B5A24D0087433E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		1F153BC517B5B3300087433E /* adntest1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = adntest1.json; sourceTree = "<group>"; };
+		1F153BCA17B5CBD60087433E /* adntest2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = adntest2.json; sourceTree = "<group>"; };
+		1F153BCF17B5D66B0087433E /* TestHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestHelper.h; sourceTree = "<group>"; };
+		1F153BD017B5D66B0087433E /* TestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestHelper.m; sourceTree = "<group>"; };
 		1F56C7EF17B4828A0069F1A1 /* ADNChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ADNChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F56C7F217B4828A0069F1A1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1F56C7F417B4828A0069F1A1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -206,6 +213,8 @@
 		1F56C81C17B4828A0069F1A1 /* ADNChallengeTests */ = {
 			isa = PBXGroup;
 			children = (
+				1F153BCF17B5D66B0087433E /* TestHelper.h */,
+				1F153BD017B5D66B0087433E /* TestHelper.m */,
 				1F56C82217B4828A0069F1A1 /* ADNChallengeTests.h */,
 				1F56C82317B4828A0069F1A1 /* ADNChallengeTests.m */,
 				1F56C81D17B4828A0069F1A1 /* Supporting Files */,
@@ -216,6 +225,8 @@
 		1F56C81D17B4828A0069F1A1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1F153BCA17B5CBD60087433E /* adntest2.json */,
+				1F153BC517B5B3300087433E /* adntest1.json */,
 				1F56C81E17B4828A0069F1A1 /* ADNChallengeTests-Info.plist */,
 				1F56C81F17B4828A0069F1A1 /* InfoPlist.strings */,
 			);
@@ -365,6 +376,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F56C82117B4828A0069F1A1 /* InfoPlist.strings in Resources */,
+				1F153BC617B5B3300087433E /* adntest1.json in Resources */,
+				1F153BCB17B5CBD60087433E /* adntest2.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +419,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F56C82417B4828A0069F1A1 /* ADNChallengeTests.m in Sources */,
+				1F153BD117B5D66B0087433E /* TestHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,6 +566,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ADNChallenge/ADNChallenge-Prefix.pch";
 				INFOPLIST_FILE = "ADNChallengeTests/ADNChallengeTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -569,6 +584,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ADNChallenge/ADNChallenge-Prefix.pch";
 				INFOPLIST_FILE = "ADNChallengeTests/ADNChallengeTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;

@@ -189,8 +189,7 @@
 // This function gets called to find out the number of rows for a particular section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //NSLog(@"num posts: %d", [globalStream numPosts]);
-	return [globalStream numPosts]; // return current number of posts
+    return [globalStream numPosts]; // return current number of posts
 }
 
 
@@ -225,15 +224,18 @@
         cell.profileImage.layer.cornerRadius = kProfileImageCornerRadius;
         cell.profileImage.layer.borderWidth = 1.0;
         
+        // Grab the image asynchronously and save it for next time
         NSString *imageUrl = adnPost.profileImageURL;
         [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrl]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-            cell.profileImage.image = [UIImage imageWithData:data];
-            adnPost.profileImage = [UIImage imageWithData:data];
+            
+            UIImage *profileImage = [UIImage imageWithData:data];
+            cell.profileImage.image = profileImage;
+            adnPost.profileImage = profileImage;
         }];
     }
     else
     {
-        // We've already cached this image, set it again
+        // We've already loaded this image, set it again
         cell.profileImage.image = adnPost.profileImage;
     }
     
@@ -242,8 +244,8 @@
     cell.profileUsername.text = adnPost.profileUsername;
     cell.postText.text = adnPost.postText;
     
+    // Set the time stamp so it reads as 2:14:25 PM (hours:minutes:seconds AM/PM)
     cell.postTimestamp.text = [dateFormatter stringFromDate:adnPost.postTimestampDate];
-    //NSLog(@"%@", cell.postTimestamp.text);
     
     // Adjust the label the the new height.
     CGSize maximumLabelSize = CGSizeMake(kPostTextViewWidth,9999);
@@ -281,7 +283,7 @@
     CGSize maximumLabelSize = CGSizeMake(kPostTextViewWidth,9999);
 	CGSize expectedLabelSize = [adnPost.postText sizeWithFont:postTextFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
 	
-    // Set the height of the label and enforce a minimum height
+    // Set the height of the label and enforce a minimum height of 72
 	height = (expectedLabelSize.height+40 > 72 ? expectedLabelSize.height+40 : 72);
     
     return height;

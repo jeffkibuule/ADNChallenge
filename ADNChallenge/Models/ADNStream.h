@@ -45,12 +45,11 @@
 // Methods
 - (void) setAPIPoint: (NSString *) APIPoint;
 - (void) refreshStream;
-- (void)fetchedData: (NSData *)responseData;
+- (void) fetchedData: (NSData *)responseData;
 
 
 - (NSUInteger) numPosts;
-- (ADNPost *) createPostFromDict: (NSDictionary *) postDict;
-- (void) addPost: (ADNPost *) adnPost position:(NSUInteger) postPosition;
+- (void) addPostsFromArray: (NSArray *) latestPosts;
 - (ADNPost *) getPostAtIndex: (NSUInteger) postIndex;
 
 // Unit tests

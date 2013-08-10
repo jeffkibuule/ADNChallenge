@@ -59,11 +59,7 @@
 - (void)fetchedData:(NSData *) responseData {
     // Parse out the JSON data
     NSError* error;
-    NSDictionary* json = [NSJSONSerialization
-                          JSONObjectWithData:responseData 
-                          
-                          options:kNilOptions
-                          error:&error];
+    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
     
     // Get all of the latests posts
     NSArray* latestPosts = [json objectForKey:@"data"]; 
@@ -71,40 +67,7 @@
     // Make sure there are no errors
     if (!error)
     {
-        // Go through all of the latest posts in *reverse order* so that we only add new ones
-        // If there are no new posts in the array, we don't need to check then
-        if ([self.streamPostsArray count] == 0)
-        {
-            // Go through all of the latest posts
-            for (NSDictionary *postDict in latestPosts)
-            {
-                // Process each dictionary item and create a new post
-                [self addPost:[self createPostFromDict:postDict] position:0];
-            }
-        }
-        else
-        {
-            // Previous top item
-            ADNPost *topPost = [self.streamPostsArray objectAtIndex:0];
-            NSMutableArray *newPostsArray = [[NSMutableArray alloc] init];
-            
-            for (NSDictionary *postDict in latestPosts)
-            {
-                // Process each dictionary item
-                ADNPost *post = [self createPostFromDict:postDict];
-                
-                // Check and see if the top item has the same ID, if it does, then this post already exists in the stream, otherwise add it
-                if ([post.postTimestampDate compare:topPost.postTimestampDate] == NSOrderedDescending)
-                {
-                    [newPostsArray addObject:post];
-                }
-            }
-            
-            [newPostsArray addObjectsFromArray:self.streamPostsArray];
-            self.streamPostsArray = newPostsArray;
-            newPostsArray = nil;
-        }
-
+        [self addPostsFromArray:latestPosts];
     }
     
     // Notify the delegate of our results
@@ -114,24 +77,49 @@
         NSLog (@"No delegate for %@ stream has been set", self.streamName);
 }
 
-// Creates a ADN post from a NSDictionary full of JSON data
-- (ADNPost *) createPostFromDict: (NSDictionary *) postDict
+// Adds posts from an array to our stream array
+- (void) addPostsFromArray: (NSArray *) latestPosts
 {
-    ADNPost *adnPost = [[ADNPost alloc] init];
-    adnPost.postJSONDict = postDict;
-    [adnPost processJSON];
+    // If there are no posts in the stream, we can just add all of them
+    if ([self.streamPostsArray count] == 0)
+    {
+        // Go through all of the latest posts
+        for (NSDictionary *postDict in latestPosts)
+        {
+            // Process each dictionary item and create a new post
+            ADNPost *post = [[ADNPost alloc] init];
+            [post getPostFromDict:postDict];
+            [streamPostsArray addObject:post];
+        }
+    }
+    // Since there are posts in the stream, we need to make sure that we only add those that are newer than the one on the top (the newest item)
+    else
+    {
+        // Previous top item
+        ADNPost *topPost = [self.streamPostsArray objectAtIndex:0];
+        NSMutableArray *newPostsArray = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *postDict in latestPosts)
+        {
+            // Process each dictionary item
+            ADNPost *post = [[ADNPost alloc] init];
+            [post getPostFromDict:postDict];
+            
+            // Compare the date times, the post needs to be newer than the top post to be added
+            if ([post.postTimestampDate compare:topPost.postTimestampDate] == NSOrderedDescending)
+            {
+                [newPostsArray addObject:post];
+            }
+        }
+        
+        // Add all of the new posts in FRONT of the previous newest post
+        [newPostsArray addObjectsFromArray:self.streamPostsArray];
+        self.streamPostsArray = newPostsArray;
+        newPostsArray = nil; // We set this to nil to release those objects, even if we have ARC, just in case
+    }
     
-    return adnPost;
-}
-
-// Adds a post from the stream to the array 
-- (void) addPost: (ADNPost *) adnPost position:(NSUInteger) postPosition
-{
-    // 
-    [streamPostsArray addObject:adnPost];
-    
-    
-    NSLog(@"Added %@'s post to %@ stream array. Now %d post(s) in stream.", adnPost.profileName, self.streamName, [self numPosts]);
+    // Sanity check - are we getting good data?
+    //NSLog(@"Added %@'s post to %@ stream array. Now %d post(s) in stream.", adnPost.profileName, self.streamName, [self numPosts]);
 }
 
 // Returns the number of posts in this stream

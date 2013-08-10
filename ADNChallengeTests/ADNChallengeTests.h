@@ -9,5 +9,8 @@
 #import <SenTestingKit/SenTestingKit.h>
 
 @interface ADNChallengeTests : SenTestCase
+{
+    
+}
 
 @end

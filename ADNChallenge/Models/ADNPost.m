@@ -41,6 +41,13 @@
     return self;
 }
 
+// Creates a ADN post from a NSDictionary full of JSON data
+- (void) getPostFromDict: (NSDictionary *) postDict
+{
+    self.postJSONDict = postDict;
+    [self processJSON];
+}
+
 // Processes JSON into our data class
 - (void) processJSON
 {

@@ -41,7 +41,8 @@
 
 @property (nonatomic, retain) NSDictionary *postJSONDict;
 
-// Methods 
+// Methods
+- (void) getPostFromDict: (NSDictionary *) postDict;
 - (void) processJSON;
 
 // Unit tests - none (class only stores data)
