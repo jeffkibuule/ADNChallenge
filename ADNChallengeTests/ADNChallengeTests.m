@@ -39,7 +39,7 @@
     //STFail(@"Unit tests are not implemented yet in ADNChallengeTests");
 }
 
-- (void) itestCreatePostFromDict
+- (void) testCreatePostFromDict
 {
     NSMutableArray *firstPostArray = [[NSMutableArray alloc] init];
     
