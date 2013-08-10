@@ -39,7 +39,7 @@
     //STFail(@"Unit tests are not implemented yet in ADNChallengeTests");
 }
 
-- (void) testCreatePostFromDict
+- (void) itestCreatePostFromDict
 {
     NSMutableArray *firstPostArray = [[NSMutableArray alloc] init];
     
@@ -67,29 +67,18 @@
     STAssertTrue([post.profileName compare:@"Evan"] == NSOrderedSame, @"Profile name parse - FAILED");
 }
 
-// For some reason this test fails, despite the class itself working. It seems to be an actual bug in the Unit Test Framework
-// as the error message it presents has appeared in Xcode 3.2.4 with iOS 4.1
-/*
+// Tests adding posts to the the stream, then trying to add the same posts to the stream (nothing should happen), then adding new posts to the stream
 - (void) testAddPostsFromArray
 {
-    NSMutableArray *firstPostArray = [[NSMutableArray alloc] init];
-    NSMutableArray *secondPostArray = [[NSMutableArray alloc] init];
-    
     // Initial test setup - exact same as testCreatePostFromDict
     NSArray *jsonArray = [[TestHelper dataFromJSONFileNamed:@"adntest1"] objectForKey:@"data"];
     STAssertTrue([jsonArray count] == 20, @"JSON Serialization - FAILED");
-    for (NSDictionary *postDict in jsonArray)
-    {
-        ADNPost *post = [[ADNPost alloc] init];
-        [post getPostFromDict:postDict];
-        [firstPostArray addObject:post];
-    }
     
     // Create a stream object
     ADNStream *adnStream = [[ADNStream alloc] init];
     
     // Use the previous postArray to add some posts to this stream
-    [adnStream addPostsFromArray:firstPostArray];
+    [adnStream addPostsFromJSONArray:jsonArray];
     
     // First check - we should have 20 posts
     STAssertTrue([adnStream numPosts] == 20, @"ADNStream add posts from array - FAILED");
@@ -101,24 +90,18 @@
     STAssertTrue([post.profileName compare:@"Evan"] == NSOrderedSame, @"Profile name parse - FAILED");
     
     // Fourth check - If we try to add the same posts, nothing more should get added
-    [adnStream addPostsFromArray:firstPostArray];
+    [adnStream addPostsFromJSONArray:jsonArray];
     STAssertTrue([adnStream numPosts] == 20, @"ADNStream adding duplicate posts to stream - FAILED");
     
     // Fifth check - Add newer data to the array, should have 40 total posts now
     jsonArray = [[TestHelper dataFromJSONFileNamed:@"adntest2"] objectForKey:@"data"];
-    for (NSDictionary *postDict in jsonArray)
-    {
-        ADNPost *post = [[ADNPost alloc] init];
-        [post getPostFromDict:postDict];
-        [secondPostArray addObject:post];
-    }
     
-    //[adnStream addPostsFromArray:secondPostArray];
-    STAssertTrue([secondPostArray count] == 20, @"ADNStream adding new posts to stream - FAILED");
+    [adnStream addPostsFromJSONArray:jsonArray];
+    STAssertTrue([adnStream numPosts] == 40, @"ADNStream adding new posts to stream - FAILED");
     
-    // Sixth check - profile name at the top should be Roger
-    post = [secondPostArray objectAtIndex:0];
-    STAssertTrue([post.profileName compare:@"Roger"] == NSOrderedSame, @"Profile name parse - FAILED");
-} */
+    // Sixth check - profile name at the top should be Roger Prokic
+    post = [adnStream.streamPostsArray objectAtIndex:0];
+    STAssertTrue([post.profileName compare:@"Roger Prokic"] == NSOrderedSame, @"Profile name parse - FAILED");
+} 
 
 @end

@@ -67,7 +67,7 @@
     // Make sure there are no errors
     if (!error)
     {
-        [self addPostsFromArray:latestPosts];
+        [self addPostsFromJSONArray:latestPosts];
     }
     
     // Notify the delegate of our results
@@ -78,7 +78,7 @@
 }
 
 // Adds posts from an array to our stream array
-- (void) addPostsFromArray: (NSArray *) latestPosts
+- (void) addPostsFromJSONArray: (NSArray *) latestPosts
 {
     // If there are no posts in the stream, we can just add all of them
     if ([self.streamPostsArray count] == 0)
@@ -92,9 +92,11 @@
             [streamPostsArray addObject:post];
         }
     }
+    
     // Since there are posts in the stream, we need to make sure that we only add those that are newer than the one on the top (the newest item)
     else
     {
+        
         // Previous top item
         ADNPost *topPost = [self.streamPostsArray objectAtIndex:0];
         NSMutableArray *newPostsArray = [[NSMutableArray alloc] init];

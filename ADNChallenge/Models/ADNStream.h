@@ -49,7 +49,7 @@
 
 
 - (NSUInteger) numPosts;
-- (void) addPostsFromArray: (NSArray *) latestPosts;
+- (void) addPostsFromJSONArray: (NSArray *) latestPosts;
 - (ADNPost *) getPostAtIndex: (NSUInteger) postIndex;
 
 // Unit tests
