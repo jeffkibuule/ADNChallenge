@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F153BB717B59C120087433E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F153BB517B59C120087433E /* Icon.png */; };
-		1F153BB817B59C120087433E /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F153BB617B59C120087433E /* Icon@2x.png */; };
 		1F153BBA17B59C270087433E /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F153BB917B59C270087433E /* Icon@2x.png */; };
 		1F153BBC17B59C2D0087433E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F153BBB17B59C2D0087433E /* Icon.png */; };
 		1F153BC117B5A0A90087433E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F153BC017B5A0A90087433E /* Reachability.m */; };
@@ -54,8 +52,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1F153BB517B59C120087433E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images/Icon.png; sourceTree = "<group>"; };
-		1F153BB617B59C120087433E /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Images/Icon@2x.png"; sourceTree = "<group>"; };
 		1F153BB917B59C270087433E /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		1F153BBB17B59C2D0087433E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		1F153BBF17B5A0A90087433E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Libraries/Reachability/Reachability.h; sourceTree = "<group>"; };
@@ -275,8 +271,6 @@
 		1FC9FC3B17B5651D003DB54B /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				1F153BB517B59C120087433E /* Icon.png */,
-				1F153BB617B59C120087433E /* Icon@2x.png */,
 				1FC9FC3C17B56530003DB54B /* ADNPlaceholderImage.png */,
 			);
 			name = Images;
@@ -364,8 +358,6 @@
 				1FC9FC3317B49E21003DB54B /* ADNPostCell.xib in Resources */,
 				1FC9FC3A17B4B30C003DB54B /* MainWindow.xib in Resources */,
 				1FC9FC3D17B56530003DB54B /* ADNPlaceholderImage.png in Resources */,
-				1F153BB717B59C120087433E /* Icon.png in Resources */,
-				1F153BB817B59C120087433E /* Icon@2x.png in Resources */,
 				1F153BBA17B59C270087433E /* Icon@2x.png in Resources */,
 				1F153BBC17B59C2D0087433E /* Icon.png in Resources */,
 			);
