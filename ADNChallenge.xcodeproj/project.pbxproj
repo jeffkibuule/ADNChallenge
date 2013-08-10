@@ -147,10 +147,8 @@
 		1F56C7E617B4828A0069F1A1 = {
 			isa = PBXGroup;
 			children = (
-				1F153BC217B5A24D0087433E /* SystemConfiguration.framework */,
 				1F153BBB17B59C2D0087433E /* Icon.png */,
 				1F153BB917B59C270087433E /* Icon@2x.png */,
-				1FC9FC3E17B56A18003DB54B /* QuartzCore.framework */,
 				1F56C7F817B4828A0069F1A1 /* ADNChallenge */,
 				1F56C81C17B4828A0069F1A1 /* ADNChallengeTests */,
 				1F56C7F117B4828A0069F1A1 /* Frameworks */,
@@ -172,6 +170,8 @@
 		1F56C7F117B4828A0069F1A1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1FC9FC3E17B56A18003DB54B /* QuartzCore.framework */,
+				1F153BC217B5A24D0087433E /* SystemConfiguration.framework */,
 				1F56C7F217B4828A0069F1A1 /* UIKit.framework */,
 				1F56C7F417B4828A0069F1A1 /* Foundation.framework */,
 				1F56C7F617B4828A0069F1A1 /* CoreGraphics.framework */,
