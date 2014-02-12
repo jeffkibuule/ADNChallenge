@@ -36,7 +36,7 @@ Potential pitfalls:
 2) Loading images can be especially slow. Most users WiFi connections are fast enough to load tiny images in advance, but avatars should only be loaded when needed when on cellular. Update: use placeholder images until profile images are loaded over the web
 
 Unit Tests:
-Will create mirror classes mapping to each relevelant class that tests functionality. Update: Created a single test case for parsing of JSON. Also created another unit test case for making sure posts added are not already present in the stream, but seems to bump up against XCode bug.
+Will create mirror classes mapping to each relevelant class that tests functionality. Update: Created a single test case for parsing of JSON. Also created another unit test case for making sure posts added are not already present in the stream.
 
 Other:
 1) Likely use JSON library to load and parse data. Update: JSON support built directly into iOS frameworks as of iOS 5.
