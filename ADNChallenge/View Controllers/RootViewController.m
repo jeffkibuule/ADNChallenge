@@ -60,6 +60,10 @@
     // Load the ADN profile placeholder image
     self.adnPlaceholderImage = [UIImage imageNamed:@"ADNPlaceholderImage.png"];
     
+    // Create the image session configuration to use a custom cache
+    NSURLSessionConfiguration *imageSessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+    imageSessionConfig.URLCache = [[NSURLCache alloc] initWithMemoryCapacity:4 * 1024 * 1024 diskCapacity:20 * 1024 * 1024 diskPath:@"Images"];
+    self.imageSession = [NSURLSession sessionWithConfiguration:imageSessionConfig];
     
     // Google should ALWAYS be reachable otherwise something has gone awry
     self.reach = [Reachability reachabilityWithHostname:@"www.google.com"];
@@ -99,6 +103,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [self.globalStream didReceiveMemoryWarning];
+    
+    // Reload the tableview to grab images again
+    [self.tableView reloadData];
 }
 
 #pragma mark -
@@ -206,7 +214,7 @@
         {
             NSURL *imageURL = [NSURL URLWithString:adnPost.profileImageURL];
             
-            NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithURL:imageURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            NSURLSessionTask *task = [self.imageSession dataTaskWithURL:imageURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                 if (data)
                 {
                     // Save this image in our data store

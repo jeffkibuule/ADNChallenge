@@ -151,5 +151,15 @@
     return nil;
 }
 
+// This will be called when the OS received a memory warning, we loop through and dump all images stored
+- (void)didReceiveMemoryWarning
+{
+    for (ADNPost *post in self.streamPostsArray)
+    {
+        // Set all images to nil, it will be reloaded if needed by the tableview
+        post.profileImage = nil;
+    }
+}
+
 
 @end

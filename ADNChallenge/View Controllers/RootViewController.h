@@ -26,6 +26,7 @@
 @property (nonatomic, strong) UIFont *profileUsernameFont;
 @property (nonatomic, strong) UIFont *postTextFont;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) NSURLSession *imageSession;
 
 @property (nonatomic, strong) ADNStream *globalStream;
 @property (nonatomic, strong) Reachability *reach;

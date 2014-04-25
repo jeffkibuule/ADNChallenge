@@ -46,6 +46,7 @@
 - (void) addPost: (ADNPost *) adnPost position:(NSUInteger) postPosition;
 - (ADNPost *) getPostAtIndex: (NSUInteger) postIndex;
 
+- (void) didReceiveMemoryWarning;
 // Unit tests
 
 @end
