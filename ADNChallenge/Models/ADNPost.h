@@ -9,40 +9,26 @@
 #import <Foundation/Foundation.h>
 
 /* Class: ADNPost
-   Purpose: Stores all data about invdividual ADNPost
-   Methods: None (only stores data)
-   Unit tests: None needed  */
+ Purpose: Stores all data about invdividual ADNPost
+ Methods: None (only stores data)
+ Unit tests: None needed  */
 
-@interface ADNPost : NSObject {
-    // User post data
-    NSString *postID;
-    NSString *profileName;              // ex. Bill Gates
-    NSString *profileUsername;          // ex. billgates
-    NSString *profileImageURL;
-    NSString *postText;
-    NSString *postTimestampString;
-    NSDate *postTimestampDate;
-    
-    UIImage* profileImage;
-    
-    // Dictionary representation JSON data
-    NSDictionary *postJSONDict;
-}
+@interface ADNPost : NSObject
 
-@property (nonatomic, retain) NSString *postID;
-@property (nonatomic, retain) NSString *profileName;
-@property (nonatomic, retain) NSString *profileUsername;
-@property (nonatomic, retain) NSString *profileImageURL;
-@property (nonatomic, retain) NSString *postText;
-@property (nonatomic, retain) NSString *postTimestampString;
-@property (nonatomic, retain) NSDate *postTimestampDate;
+@property (nonatomic, copy) NSString *postID;
+@property (nonatomic, copy) NSString *profileName;            // ex. Bill Gates
+@property (nonatomic, copy) NSString *profileUsername;        // ex. billgates
+@property (nonatomic, copy) NSString *profileImageURL;
+@property (nonatomic, copy) NSString *postText;
+@property (nonatomic, copy) NSString *postTimestampString;
+@property (nonatomic, strong) NSDate *postTimestampDate;
 
-@property (nonatomic, retain) UIImage *profileImage;
+@property (nonatomic, strong) UIImage *profileImage;
 
-@property (nonatomic, retain) NSDictionary *postJSONDict;
+// Dictionary representation JSON data
+@property (nonatomic, copy) NSDictionary *postJSONDict;
 
 // Methods
-- (void) getPostFromDict: (NSDictionary *) postDict;
 - (void) processJSON;
 
 // Unit tests - none (class only stores data)

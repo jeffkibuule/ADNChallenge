@@ -9,18 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface ADNPostCell : UITableViewCell
-{
-    IBOutlet UIImageView *profileImage;
-    IBOutlet UILabel *profileName;
-    IBOutlet UILabel *profileUsername;
-    IBOutlet UILabel *postText;
-    IBOutlet UILabel *postTimestamp;
-}
 
-@property (nonatomic, retain) UIImageView *profileImage;
-@property (nonatomic, retain) UILabel *profileName;
-@property (nonatomic, retain) UILabel *profileUsername;
-@property (nonatomic, retain) UILabel *postText;
-@property (nonatomic, retain) UILabel *postTimestamp;
+@property (nonatomic, weak) IBOutlet UIImageView *profileImage;
+@property (nonatomic, weak) IBOutlet UILabel *profileName;
+@property (nonatomic, weak) IBOutlet UILabel *profileUsername;
+@property (nonatomic, weak) IBOutlet UILabel *postText;
+@property (nonatomic, weak) IBOutlet UILabel *postTimestamp;
+
+@property (nonatomic, strong) NSURLSessionTask *task;
 
 @end

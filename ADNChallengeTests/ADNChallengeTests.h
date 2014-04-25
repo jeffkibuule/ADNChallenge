@@ -6,11 +6,8 @@
 //  Copyright (c) 2013 Joefrey Kibuule. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface ADNChallengeTests : SenTestCase
-{
-    
-}
+@interface ADNChallengeTests : XCTestCase
 
 @end

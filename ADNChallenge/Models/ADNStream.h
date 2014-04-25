@@ -10,8 +10,8 @@
 
 /* Class: ADNStream
  Purpose: Stores all data about a specific ADNStream through an array of posts
- Methods: 
-    1) refreshStream
+ Methods:
+ 1) streamRefreshedWithError
  Unit tests:   */
 
 @class ADNPost;
@@ -20,36 +20,30 @@
 @protocol ADNStreamDelegate
 
 @required
-- (void) streamRefreshedWithError: (NSError *) error;
+- (void) streamRefreshed;
 
 @end
 
-@interface ADNStream : NSObject {
-    //
-    NSString *streamName;
-    NSMutableArray *streamPostsArray;
-    
-    NSString *streamAPIPointURL;
-    
-    id<ADNStreamDelegate> streamDelegate;
-}
 
-@property (nonatomic, retain) NSString *streamName;
-@property (nonatomic, retain) NSMutableArray *streamPostsArray;
 
-@property (nonatomic, retain) NSString *streamAPIPointURL;
+@interface ADNStream : NSObject
 
-@property (nonatomic, retain) id<ADNStreamDelegate> streamDelegate;
+@property (nonatomic, copy) NSString *streamName;
+@property (nonatomic, copy) NSMutableArray *streamPostsArray;
+@property (nonatomic, copy) NSString *streamAPIPointURL;
+@property (nonatomic, weak) id<ADNStreamDelegate> streamDelegate;
 
 
 // Methods
 - (void) setAPIPoint: (NSString *) APIPoint;
 - (void) refreshStream;
 - (void) fetchedData: (NSData *)responseData;
+- (void) addPostsFromJSON: (NSArray *)JSONDict;
 
 
 - (NSUInteger) numPosts;
-- (void) addPostsFromJSONArray: (NSArray *) latestPosts;
+- (ADNPost *) createPostFromDict: (NSDictionary *) postDict;
+- (void) addPost: (ADNPost *) adnPost position:(NSUInteger) postPosition;
 - (ADNPost *) getPostAtIndex: (NSUInteger) postIndex;
 
 // Unit tests

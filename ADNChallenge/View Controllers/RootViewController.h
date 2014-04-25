@@ -16,46 +16,22 @@
 #define kProfileImageCornerRadius    9.0       // Profile image corner radius
 
 @class ADNStream;
+@class Reachability;
 
 @interface RootViewController : UITableViewController <ADNStreamDelegate>
-{
-    // UI elements
-    UIRefreshControl *streamRefreshControl;
-    
-    UIImage *adnPlaceholderImage;
-    
-    UIFont *profileNameFont;
-    UIFont *profileUsernameFont;
-    UIFont *postTextFont;
-    
-    NSDateFormatter *dateFormatter;
-    
-    // Data elements
-    ADNStream *globalStream;
-    
-    BOOL networkReachable;
-    BOOL hasReachedNetwork;     // Used to store if the app has ever connected to the Internet when first launched, otherwise we will have a blank table, so pop a message
-    BOOL hasShownUnreachableAlert;
-}
 
-@property (nonatomic, retain) UIRefreshControl *streamRefreshControl;
+@property (nonatomic, strong) UIRefreshControl *streamRefreshControl;
+@property (nonatomic, strong) UIImage *adnPlaceholderImage;
+@property (nonatomic, strong) UIFont *profileNameFont;
+@property (nonatomic, strong) UIFont *profileUsernameFont;
+@property (nonatomic, strong) UIFont *postTextFont;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
-@property (nonatomic, retain) UIImage *adnPlaceholderImage;
+@property (nonatomic, strong) ADNStream *globalStream;
+@property (nonatomic, strong) Reachability *reach;
+@property (nonatomic) BOOL networkReachable;
 
-@property (nonatomic, retain) UIFont *profileNameFont;
-@property (nonatomic, retain) UIFont *profileUsernameFont;
-@property (nonatomic, retain) UIFont *postTextFont;
-
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
-
-@property (nonatomic, retain) ADNStream *globalStream;
-
-@property (nonatomic, readwrite) BOOL networkReachable;
-@property (nonatomic, readwrite) BOOL hasReachedNetwork;
-@property (nonatomic, readwrite) BOOL hasShownUnreachableAlert;
 
 - (void)refreshView:(UIRefreshControl *)refresh;
-
-- (void)streamRefreshedWithError:(NSError *)error;
 
 @end

@@ -16,37 +16,14 @@
 #import "ADNPost.h"
 #import "ADNPostCell.h"
 
-@interface RootViewController ()
-
--(void)reachabilityChanged:(NSNotification*)note;
-
-@end 
-
 @implementation RootViewController
-
-@synthesize streamRefreshControl;
-
-@synthesize adnPlaceholderImage;
-
-@synthesize profileNameFont;
-@synthesize profileUsernameFont;
-@synthesize postTextFont;
-
-@synthesize dateFormatter;
-
-@synthesize globalStream;
-
-@synthesize networkReachable;
-@synthesize hasReachedNetwork;
-@synthesize hasShownUnreachableAlert;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
     {
         // Custom initialization
-        hasReachedNetwork = FALSE;
-        hasShownUnreachableAlert = FALSE;
+        
     }
     
     return self;
@@ -57,74 +34,65 @@
     [super viewDidLoad];
     
     // Setup the refresh control
-    streamRefreshControl = [[UIRefreshControl alloc] init];
-    [streamRefreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
-    self.refreshControl = streamRefreshControl;
+    self.streamRefreshControl = [[UIRefreshControl alloc] init];
+    [self.streamRefreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = self.streamRefreshControl;
     
     // Setup the data object
-    globalStream = [[ADNStream alloc] init];
-    globalStream.streamName = @"App.net Global Stream";
-    globalStream.streamDelegate = self;
-    [globalStream setAPIPoint:@"https://alpha-api.app.net/stream/0/posts/stream/global"];
+    self.globalStream = [[ADNStream alloc] init];
+    self.globalStream.streamName = @"App.net Global Stream";
+    self.globalStream.streamDelegate = self;
+    [self.globalStream setAPIPoint:@"https://alpha-api.app.net/stream/0/posts/stream/global"];
     
     // Cache the system fonts used when evlanuating the appropriate width and height of UILabel objects
-    profileNameFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:13.0];            // Bill Gates
-    profileUsernameFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0];       // @billgates
-    postTextFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];              // I am Bill Gates
+    self.profileNameFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:13.0];            // Bill Gates
+    self.profileUsernameFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0];       // @billgates
+    self.postTextFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];              // I am Bill Gates
     
     // Set the title
-    self.title = globalStream.streamName;
+    self.title = self.globalStream.streamName;
     
     // Set up the date format
-    dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"h:mm:ss a"];
-    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+    self.dateFormatter = [[NSDateFormatter alloc] init];
+    [self.dateFormatter setDateFormat:@"h:mm:ss a"];
+    [self.dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
     
     // Load the ADN profile placeholder image
-    adnPlaceholderImage = [UIImage imageNamed:@"ADNPlaceholderImage.png"];
+    self.adnPlaceholderImage = [UIImage imageNamed:@"ADNPlaceholderImage.png"];
     
-    
-    // Use the Reachability library to set up a notifier for network reachability
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reachabilityChanged:)
-                                                 name:kReachabilityChangedNotification
-                                               object:nil];
     
     // Google should ALWAYS be reachable otherwise something has gone awry
-    Reachability * reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    self.reach = [Reachability reachabilityWithHostname:@"www.google.com"];
     
     // Set up 2 GCD blocks for responding to network reachability, this way should be iOS 7 proof when the user can change connectivity via Control Center
-    reach.reachableBlock = ^(Reachability * reachability)
+    __weak RootViewController* weakSelf = self;
+    self.reach.reachableBlock = ^(Reachability * reachability)
     {
+        RootViewController *strongSelf = weakSelf;
         dispatch_async(dispatch_get_main_queue(), ^{
-            networkReachable = true;
-            hasReachedNetwork = TRUE;
+            strongSelf.networkReachable = true;
             
             // Network reachable, reload more data
-            [self.streamRefreshControl beginRefreshing];
-            [self refreshView:self.streamRefreshControl];
+            [strongSelf.streamRefreshControl beginRefreshing];
+            [strongSelf refreshView:strongSelf.streamRefreshControl];
         });
     };
     
-    reach.unreachableBlock = ^(Reachability * reachability)
+    self.reach.unreachableBlock = ^(Reachability * reachability)
     {
+        RootViewController *strongSelf = weakSelf;
         dispatch_async(dispatch_get_main_queue(), ^{
-            networkReachable = false;
-            
-            // We've never had network connectivity, so pop open a dialog box explaining as such
-            if (!hasReachedNetwork && !hasShownUnreachableAlert)
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No network connection" message:@"You must be connected to the internet to use this app." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [alert show];
-                
-                // Only show this popup once
-                hasShownUnreachableAlert = true;
-            }
+            strongSelf.networkReachable = false;
         });
     };
     
     // Start up notifications
-    [reach startNotifier];
+    [self.reach startNotifier];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.reach stopNotifier];
 }
 
 - (void)didReceiveMemoryWarning
@@ -135,36 +103,22 @@
 
 #pragma mark -
 #pragma mark Custom Methods
-- (void)streamRefreshedWithError:(NSError *)error
+- (void)streamRefreshed
 {
-    // No longer refreshing
-    [streamRefreshControl endRefreshing];
-    
-    // Change the title so we know how many posts we have in the stream
-    self.title = [NSString stringWithFormat:@"%@ (%d)", globalStream.streamName, [globalStream numPosts]];
-    
-    // Reload the tablet if we don't have an error
-    if (error == nil)
-        [self.tableView reloadData];
-    else
-        NSLog(@"Error loading data: %@", [error description]);
-}
-
-#pragma mark -
-#pragma mark Reachability Methods
-// Reachability callback method, useful for needing to respond to reachability notifications that can't use GCD due to UI only being on main thread
--(void)reachabilityChanged:(NSNotification*)note
-{
-    Reachability * reach = [note object];
-    
-    if([reach isReachable])
-    {
+    // Update the title and reload tablet data on main thread
+    __weak RootViewController* weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Update the title and reload tablet data on main thread
+        RootViewController *strongSelf = weakSelf;
         
-    }
-    else
-    {
+        // No longer refreshing
+        [strongSelf.streamRefreshControl endRefreshing];
         
-    }
+        // Change the title so we know how many posts we have in the stream
+        strongSelf.title = [NSString stringWithFormat:@"%@ (%lu)", strongSelf.globalStream.streamName, (unsigned long)[strongSelf.globalStream numPosts]];
+        
+        [strongSelf.tableView reloadData];
+    });
 }
 
 #pragma mark -
@@ -172,24 +126,24 @@
 -(void)refreshView:(UIRefreshControl *)refresh {
     
     // See if the network is reachable
-    if (networkReachable)
+    if (self.networkReachable)
     {
-        streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing data..."];
+        self.streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing data..."];
         
         // custom refresh logic would be placed here...
-        [globalStream refreshStream];
+        [self.globalStream refreshStream];
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"MMM d, h:mm:ss a"];
         NSString *lastUpdated = [NSString stringWithFormat:@"Last updated on %@", [formatter stringFromDate:[NSDate date]]];
-        streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
+        self.streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
     }
     else
     {
         // No data connection present
-        streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"No data connection"];
+        self.streamRefreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"No data connection"];
         
-        [streamRefreshControl endRefreshing];
+        [self.streamRefreshControl endRefreshing];
     }
 }
 
@@ -203,7 +157,8 @@
 // This function gets called to find out the number of rows for a particular section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [globalStream numPosts]; // return current number of posts
+    //NSLog(@"num posts: %d", [globalStream numPosts]);
+	return [self.globalStream numPosts]; // return current number of posts
 }
 
 
@@ -217,7 +172,7 @@
 	// Get the section and row
 	NSUInteger row = [indexPath row];
     
-    ADNPost *adnPost = [globalStream getPostAtIndex: row];
+    ADNPost *adnPost = [self.globalStream getPostAtIndex: row];
     
     // Get the cell XIB
     ADNPostCell *cell = (ADNPostCell *)[tableView dequeueReusableCellWithIdentifier:ADNPostCellIdentifier];
@@ -227,29 +182,52 @@
         cell = (ADNPostCell *)[nib objectAtIndex:0];
     }
     
+    // If this cell was previously redownloading an image (because download speed was slow), cancel that task
+    if (cell.task)
+    {
+        [cell.task cancel];
+        cell.task = nil;
+    }
+    
     // Load the profile image asychrononously to prevent blocking of the UI thread
     if (adnPost.profileImage == nil)
     {
         // Haven't downloaded this image, set a placeholder image then grab the real one off the web
-        cell.profileImage.image = adnPlaceholderImage;
+        cell.profileImage.image = self.adnPlaceholderImage;
+        
         
         // Create a rounded border mask on the imageview
         cell.profileImage.layer.masksToBounds = YES;
         cell.profileImage.layer.cornerRadius = kProfileImageCornerRadius;
         cell.profileImage.layer.borderWidth = 1.0;
         
-        // Grab the image asynchronously and save it for next time
-        NSString *imageUrl = adnPost.profileImageURL;
-        [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrl]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        // Check and make sure there's a valid profile image url before trying to download anything
+        if (adnPost.profileImageURL)
+        {
+            NSURL *imageURL = [NSURL URLWithString:adnPost.profileImageURL];
             
-            UIImage *profileImage = [UIImage imageWithData:data];
-            cell.profileImage.image = profileImage;
-            adnPost.profileImage = profileImage;
-        }];
+            NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithURL:imageURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                if (data)
+                {
+                    // Save this image in our data store
+                    adnPost.profileImage = [UIImage imageWithData:data];
+                    
+                    // Assign image on the main thread
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        cell.profileImage.image = [UIImage imageWithData:data];
+                    });
+                }
+            }];
+            
+            // Save the task for later in case we need to cancel it
+            cell.task = task;
+            
+            [task resume];
+        }
     }
     else
     {
-        // We've already loaded this image, set it again
+        // We've already cached this image, set it again
         cell.profileImage.image = adnPost.profileImage;
     }
     
@@ -257,36 +235,52 @@
     cell.profileName.text = adnPost.profileName;
     cell.profileUsername.text = adnPost.profileUsername;
     cell.postText.text = adnPost.postText;
+    cell.postTimestamp.text = [self.dateFormatter stringFromDate:adnPost.postTimestampDate];
     
-    // Set the time stamp so it reads as 2:14:25 PM (hours:minutes:seconds AM/PM)
-    cell.postTimestamp.text = [dateFormatter stringFromDate:adnPost.postTimestampDate];
     
     // Adjust the label the the new height.
     CGSize maximumLabelSize = CGSizeMake(kPostTextViewWidth,9999);
-    CGSize expectedLabelSize = [adnPost.postText sizeWithFont:postTextFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+    
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:adnPost.postText attributes:@{NSFontAttributeName:self.postTextFont}];
+    CGRect rect = [attributedString boundingRectWithSize:maximumLabelSize options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+    CGSize expectedLabelSize = rect.size;
+    expectedLabelSize.height = ceilf(expectedLabelSize.height);
+    expectedLabelSize.width = ceilf(expectedLabelSize.width);
     
     CGRect newFrame = CGRectMake(64, 20, kPostTextViewWidth, 32);
     
     // Set the height of the label
     newFrame.size.height = expectedLabelSize.height+20;
     cell.postText.frame = newFrame;
-     
-    // Adjust the size of the username 
+    
+    
+    
+    // Adjust the size of the username
     maximumLabelSize = CGSizeMake(kMaxUsernameWidth,9999);  // Prevent overrun of the profile name pushing the username off the screen
-    expectedLabelSize = [adnPost.profileName sizeWithFont:profileNameFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+    attributedString = [[NSAttributedString alloc] initWithString:adnPost.profileName attributes:@{NSFontAttributeName:self.profileNameFont}];
+    rect = [attributedString boundingRectWithSize:maximumLabelSize options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+    expectedLabelSize = rect.size;
+    expectedLabelSize.height = ceilf(expectedLabelSize.height);
+    expectedLabelSize.width = ceilf(expectedLabelSize.width);
+    
     cell.profileName.frame = CGRectMake (cell.profileName.frame.origin.x, cell.profileName.frame.origin.y, expectedLabelSize.width, cell.profileName.frame.size.height);
     
     
     // Adjust the size and position of the profile username based on the position of profileName
-    expectedLabelSize = [adnPost.profileUsername sizeWithFont:profileUsernameFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+    attributedString = [[NSAttributedString alloc] initWithString:adnPost.profileUsername attributes:@{NSFontAttributeName:self.profileUsernameFont}];
+    rect = [attributedString boundingRectWithSize:maximumLabelSize options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+    expectedLabelSize = rect.size;
+    expectedLabelSize.height = ceilf(expectedLabelSize.height);
+    expectedLabelSize.width = ceilf(expectedLabelSize.width);
+    
     cell.profileUsername.frame = CGRectMake (cell.profileName.frame.origin.x + cell.profileName.frame.size.width + 5, cell.profileUsername.frame.origin.y, expectedLabelSize.width, 15);
     
     
     return cell;
 }
 
-// Called when a table view cell row has been selected 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -297,10 +291,14 @@
 	NSUInteger row = [indexPath row];
     
     NSUInteger height;
-    ADNPost *adnPost = [globalStream getPostAtIndex:row];
-    
+    ADNPost *adnPost = [self.globalStream getPostAtIndex:row];
     CGSize maximumLabelSize = CGSizeMake(kPostTextViewWidth,9999);
-	CGSize expectedLabelSize = [adnPost.postText sizeWithFont:postTextFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+	
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:adnPost.postText attributes:@{NSFontAttributeName:self.postTextFont}];
+    CGRect rect = [attributedString boundingRectWithSize:maximumLabelSize options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+    CGSize expectedLabelSize = rect.size;
+    expectedLabelSize.height = ceilf(expectedLabelSize.height);
+    expectedLabelSize.width = ceilf(expectedLabelSize.width);
 	
     // Set the height of the label and enforce a minimum height of 72
 	height = (expectedLabelSize.height+40 > 72 ? expectedLabelSize.height+40 : 72);

@@ -27,7 +27,6 @@
         return [NSJSONSerialization JSONObjectWithStream:inputStream options:0 error:nil];
     }
     
-    //STFail(@"Couldn't load data");
     return nil;
 }
 
